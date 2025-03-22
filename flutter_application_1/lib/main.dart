@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'chatbot_screen.dart';
+import 'second_route.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,10 +17,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  OverlayEntry? overlayEntry;
+
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
+    Tracker(),
     ChatbotScreen(),
     // Add more screens here
   ];
@@ -58,6 +62,10 @@ class _MyAppState extends State<MyApp> {
             NavigationDestination(
               icon: Icon(Icons.home),
               label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.fact_check),
+              label: 'Tracker',
             ),
             NavigationDestination(
               icon: Icon(Icons.chat),

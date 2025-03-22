@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
 
-class SecondRoute extends StatelessWidget {
-  const SecondRoute({super.key});
+class Tracker extends StatelessWidget {
+  const Tracker({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Second Route')),
+      appBar: AppBar(title: const Text('Medication Tracker')),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HomeScreen()),
+                            );
           },
           child: const Text('Go back!'),
         ),
