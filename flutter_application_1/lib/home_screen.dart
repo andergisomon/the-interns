@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'second_route.dart';
 import 'chatbot_screen.dart';
 
-class FirstRoute extends StatelessWidget {
-  const FirstRoute({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class FirstRoute extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChatbotRoute()),
+                  MaterialPageRoute(builder: (context) => const ChatbotScreen()),
                 );
               },
             ),
@@ -37,3 +37,5 @@ class FirstRoute extends StatelessWidget {
     );
   }
 }
+
+

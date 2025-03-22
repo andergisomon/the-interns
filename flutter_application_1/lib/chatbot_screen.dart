@@ -5,14 +5,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter/services.dart'; // For Clipboard
 
 
-class ChatbotRoute extends StatefulWidget {
-  const ChatbotRoute({super.key});
+class ChatbotScreen extends StatefulWidget {
+  const ChatbotScreen({super.key});
 
   @override
-  State<ChatbotRoute> createState() => _ChatbotRouteState();
+  State<ChatbotScreen> createState() => _ChatbotScreenState();
 }
 
-class _ChatbotRouteState extends State<ChatbotRoute> {
+class _ChatbotScreenState extends State<ChatbotScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<ChatMessage> _messages = [];
   final String _apiKey = 'AIzaSyBGkAvvrnNGbemJ_fHyaYOAOVxyb0u8rVQ'; // Replace with your actual API key

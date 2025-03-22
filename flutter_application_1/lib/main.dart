@@ -8,8 +8,27 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    ChatbotScreen(),
+    // Add more screens here
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +41,32 @@ class MyApp extends StatelessWidget {
           labelMedium: TextStyle(fontFamily: 'Work Sans Medium'),
           labelLarge: TextStyle(fontFamily: 'Work Sans Medium'),
           bodySmall: TextStyle(fontFamily: 'Work Sans Medium'),
-          bodyMedium: TextStyle(fontFamily: 'Work Sans Medium'), // Set default font here
+          bodyMedium: TextStyle(fontFamily: 'Work Sans Medium'),
           bodyLarge: TextStyle(fontFamily: 'Work Sans Medium'),
-          headlineLarge: TextStyle(fontFamily: 'Work Sans Medium'), // You can set different fonts for different text styles.
+          headlineLarge: TextStyle(fontFamily: 'Work Sans Medium'),
           titleLarge: TextStyle(fontFamily: 'Work Sans Semibold'),
         ),
       ),
-      home: FirstRoute(),
+      home: Scaffold(
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: _onItemTapped,
+          destinations: const <NavigationDestination>[
+            NavigationDestination(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.chat),
+              label: 'Chatbot',
+            ),
+            // Add more destinations here
+          ],
+        ),
+      ),
     );
   }
 }
-
