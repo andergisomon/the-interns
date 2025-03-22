@@ -34,6 +34,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: ChatbotScreen(),// const HomePage(),
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          labelSmall: TextStyle(fontFamily: 'Work Sans Medium'),
+          labelMedium: TextStyle(fontFamily: 'Work Sans Medium'),
+          labelLarge: TextStyle(fontFamily: 'Work Sans Medium'),
+          bodySmall: TextStyle(fontFamily: 'Work Sans Medium'),
+          bodyMedium: TextStyle(fontFamily: 'Work Sans Medium'),
+          bodyLarge: TextStyle(fontFamily: 'Work Sans Medium'),
+          headlineLarge: TextStyle(fontFamily: 'Work Sans Medium'),
+          titleLarge: TextStyle(fontFamily: 'Work Sans Semibold'),
+        ),
+      )
     );
   }
 }
