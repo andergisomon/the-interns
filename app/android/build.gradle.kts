@@ -1,8 +1,23 @@
+buildscript {
+    repositories{
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:7.1.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.10")
+    }
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
+}
+
+plugins {
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
 
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()

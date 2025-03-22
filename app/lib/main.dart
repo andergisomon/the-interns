@@ -2,8 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'api/firebase_api.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp();
+    await FirebaseApi().initNotifications();
+  } catch (e) {
+    print('Error initializing Firebase: $e');
+  }
   _setupLogging();
   runApp(const MyApp());
 }
@@ -11,7 +21,7 @@ void main() {
 void _setupLogging() {
   Logger.root.level = Level.ALL; // Set the logging level to ALL
   Logger.root.onRecord.listen((record) {
-    // ...existing code...
+    print('${record.level.name}: ${record.time}: ${record.message}');
   });
 }
 
@@ -288,4 +298,3 @@ class MedicationFormState extends State<MedicationForm> {
     }
   }
 }
-

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "256027984544",
+    "project_id": "lebui-modsu",
+    "storage_bucket": "lebui-modsu.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256027984544:android:e1dc1ebe750411d530ffc5",
+        "android_client_info": {
+          "package_name": "com.lebui.modsu.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256027984544-nvip2sgevmprk1ul156gklnstbcrp2jc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs9O9i6hZ-dR_1Hyh0xRtyd4OFcPGm7k4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256027984544-nvip2sgevmprk1ul156gklnstbcrp2jc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+
