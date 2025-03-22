@@ -41,7 +41,7 @@ android {
 
     defaultConfig {
         applicationId = "com.lebui.modsu.app" // Ensure this matches the package name in MainActivity
-        minSdk = 21
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

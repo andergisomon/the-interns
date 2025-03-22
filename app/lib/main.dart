@@ -1,3 +1,4 @@
+import 'package:app/chatbot_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: ChatbotScreen(),// const HomePage(),
     );
   }
 }
