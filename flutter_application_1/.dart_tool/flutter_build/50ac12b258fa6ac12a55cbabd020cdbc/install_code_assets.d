@@ -1,0 +1,1 @@
+ /home/ander/vhack/helloworld/flutter_application_1/.dart_tool/flutter_build/50ac12b258fa6ac12a55cbabd020cdbc/native_assets.json: 
