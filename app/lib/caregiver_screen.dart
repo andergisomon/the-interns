@@ -18,6 +18,8 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+                                                textStyle: const TextStyle(fontSize: 16, fontFamily: 'Work Sans Semibold'));
 
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +53,7 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
         Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 500),
+            constraints: const BoxConstraints(maxHeight: 450),
             child: CarouselView(
               itemExtent: 330,
               shrinkExtent: 330,
@@ -62,7 +64,51 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 200,)
+        const SizedBox(height: 20,),
+        const Padding(
+          padding: EdgeInsetsDirectional.only(top: 8.0, start: 4.0, bottom: 0.0),
+          child: Padding(padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                          child: Text('New parent or about to be?',
+                                      style: TextStyle(fontSize: 22, fontFamily: 'Work Sans Semibold'),
+                                      ),
+                                )
+        ),
+        const SizedBox(height: 230, width: 300,
+                    child: Image(image: AssetImage('assets/images/parent.png'),
+                          )
+                  ),
+
+        const SizedBox(
+          height: 100, width: 130,
+          child: Padding(padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                child: Text("Nobody gets it right the first time. Transitioning into the life of a parent can be challenging, many things aren't obvious at first glance.",
+                          style: TextStyle(fontFamily: 'Work Sans'),
+                          textAlign: TextAlign.left,
+                          ),
+                        )
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            // ignore: sized_box_for_whitespace
+            child: Container(
+              height: 45,
+              width: 150, // Adjust the width as needed
+              child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0xFF8A2BE2), // Friendly, maternal shade of purple/violet
+            foregroundColor: Colors.white, // White text color
+            textStyle: const TextStyle(fontSize: 16, fontFamily: 'Work Sans Semibold'),
+          ),
+          onPressed: () {},
+          child: const Text('Get started'),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 100),
+        
       ],
     )
     );
@@ -89,7 +135,7 @@ class UncontainedLayoutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Use Color.withAlpha() instead of withOpacity()
     final Color backgroundColor = Colors.primaries[index % Colors.primaries.length].withAlpha((0.5 * 255).round());
-
+    
     return ColoredBox(
       color: backgroundColor,
       child: Center(
@@ -113,7 +159,7 @@ class UncontainedLayoutCard extends StatelessWidget {
             // ignore: sized_box_for_whitespace
             Container(
               width: 400,
-              height: 160,
+              height: 110,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0), // Example: 16 pixels horizontal padding
                 child: Text(
