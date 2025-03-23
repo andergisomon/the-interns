@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'api/firebase_api.dart';
+import 'caregiver_screen.dart';
 
 
 void main() async {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChatbotScreen(),// const HomePage(),
+      home: CaregiverScreen(),// const HomePage(),
       theme: ThemeData(
         textTheme: const TextTheme(
           labelSmall: TextStyle(fontFamily: 'Work Sans Medium'),
