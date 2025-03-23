@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CaregiverScreen(),// const HomePage(),
+      home: ChatbotScreen(),// const HomePage(), or CaregiverScreen(), or ChatbotScreen(), for debugging
       theme: ThemeData(
         textTheme: const TextTheme(
           labelSmall: TextStyle(fontFamily: 'Work Sans Medium'),

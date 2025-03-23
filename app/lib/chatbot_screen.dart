@@ -12,99 +12,6 @@ class ChatbotScreen extends StatefulWidget {
   State<ChatbotScreen> createState() => _ChatbotScreenState();
 }
 
-// class _ChatbotScreenState extends State<ChatbotScreen> {
-//   final TextEditingController _controller = TextEditingController();
-//   final List<ChatMessage> _messages = [];
-//   final String _apiKey = 'AIzaSyBGkAvvrnNGbemJ_fHyaYOAOVxyb0u8rVQ'; // Replace with your actual API key
-//   bool _isBotTyping = false; // Signal to enable/disable loading animation
-
-
-//   void _sendMessage() async {
-//     final userInput = _controller.text;
-//     if (userInput.isNotEmpty) {
-//       setState(() {
-//         _messages.add(ChatMessage(text: userInput, isMe: true));
-//         _controller.clear();
-//         _isBotTyping = true; // Bot is typing right after user message sent
-//       });
-
-//       try {
-//         final botResponse = await getGeminiResponse(_apiKey, userInput);
-//         setState(() {
-//           _messages.add(ChatMessage(text: botResponse, isMe: false));
-//           _isBotTyping = false; // Bot not typing after bot message sent (received response from gemini)
-//         });
-//       } catch (e) {
-//         setState(() {
-//           _messages.add(ChatMessage(text: 'Error: $e', isMe: false));
-//           _isBotTyping = false;
-//         });
-//       }
-//     }
-//   }
-
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Chatbot')),
-//       body: Column(
-//         children: [
-//           Expanded(
-//             child: _messages.isEmpty
-//                 ? const Center(
-//                     child: Text(
-//                       'Send a message to \nbegin the conversation 🤗',
-//                       textAlign: TextAlign.center,
-//                       style: TextStyle(fontSize: 16, color: Colors.grey),
-//                     ),
-//                   )
-            
-//             : ListView.builder(
-//               itemCount: _messages.length,
-//               itemBuilder: (context, index) {
-//                 return _messages[index];
-//               },
-//             ),
-//           ),
-//           TypingIndicator(isTyping: _isBotTyping),
-//           _buildTextComposer(),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildTextComposer() {
-//     return SafeArea( // Wrap your Container with SafeArea
-//       bottom: true, // Ensure it applies to the bottom
-//       minimum: EdgeInsets.only(bottom: 18.0, left: 12.0),
-//       child: Container(
-//           margin: const EdgeInsets.symmetric(horizontal: 8.0),
-//           child: Row(
-//             children: [
-//               Flexible(
-//                 child: TextField(
-//                   controller: _controller,
-//                   onSubmitted: (value) => _sendMessage(),
-//                   decoration:
-//                       const InputDecoration.collapsed(hintText: 'Send a message'),
-//                   maxLines: null,
-//                   minLines: 1,
-//                   keyboardType: TextInputType.multiline,
-//                   textInputAction: TextInputAction.newline,
-//                 ),
-//               ),
-//               IconButton(
-//                 icon: const Icon(Icons.send),
-//                 onPressed: () => _sendMessage(),
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     }
-//   }
-
 class _ChatbotScreenState extends State<ChatbotScreen> {
   final TextEditingController _controller = TextEditingController();
   List<ChatMessage> _messages = [];
@@ -137,8 +44,8 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     await prefs.setStringList(_messagesKey, messagesJson);
   }
 
-  void _sendMessage() async {
-    final userInput = _controller.text;
+  void _sendMessage({String? presetMessage}) async {
+    final userInput = presetMessage ?? _controller.text;
     if (userInput.isNotEmpty) {
       setState(() {
         _messages.add(ChatMessage(text: userInput, isMe: true));
@@ -164,20 +71,79 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     }
   }
 
+  void _clearMessages() {
+    setState(() {
+      _messages.clear();
+    });
+    _saveMessages(); // Save the empty message list
+  }
+
+  void _showClearChatConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Clear chat', style: TextStyle(fontFamily: 'Work Sans Medium', color: Colors.black)),
+          content: const Text('Are you sure you want to clear the chat?', style: TextStyle(fontFamily: 'Work Sans'),),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _clearMessages(); // Clear the messages
+              },
+              child: const Text('Clear'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Chatbot')),
+      appBar: AppBar(
+        title: const Text('Chatbot'),
+        actions: [
+          TextButton.icon(
+            onPressed: _showClearChatConfirmationDialog,
+            icon: const Icon(Icons.delete, color: Color.fromARGB(255, 0, 0, 0)),
+            label: const Text('Clear chat', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
             child: _messages.isEmpty
-                ? const Center(
-                    child: Text(
-                      'Send a message to \nbegin the conversation 🤗',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
-                    ),
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildPresetButton(
+                        title: 'Greeting',
+                        subtitle: 'Say hello to the bot',
+                        icon: Icons.waving_hand,
+                        onPressed: () => _sendMessage(presetMessage: 'Hello!'),
+                      ),
+                      _buildPresetButton(
+                        title: 'Ask for Help',
+                        subtitle: 'Ask the bot for help',
+                        icon: Icons.help_outline,
+                        onPressed: () => _sendMessage(presetMessage: 'Can you help me?'),
+                      ),
+                      _buildPresetButton(
+                        title: 'Tell a Joke',
+                        subtitle: 'Ask the bot to tell a joke',
+                        icon: Icons.emoji_emotions,
+                        onPressed: () => _sendMessage(presetMessage: 'Tell me a joke!'),
+                      ),
+                    ],
                   )
                 : ListView.builder(
                     itemCount: _messages.length,
@@ -218,6 +184,32 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               onPressed: () => _sendMessage(),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPresetButton({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon, size: 32),
+        label: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(subtitle, style: TextStyle(fontSize: 14)),
+          ],
+        ),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(16.0),
+          alignment: Alignment.centerLeft,
         ),
       ),
     );
