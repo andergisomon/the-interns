@@ -1,4 +1,4 @@
-name: app
+name: lebui_modsu
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^3.12.1
   firebase_messaging: ^15.2.4
   firebase_auth: ^5.5.1
+  google_sign_in: ^6.3.0
 
 dev_dependencies:
   flutter_test:
@@ -56,10 +57,14 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
+  assets:
+    - assets/signin-assets/Android/png@1x/light/android_light_rd_na@1x.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
