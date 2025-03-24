@@ -13,11 +13,11 @@ Future<String> getGeminiResponse(String apiKey, String userInput) async {
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        "system_instruction":
-        {
-          "parts":
-            { "text": "You are a helpful medical-oriented chatbot. You will help the user on issues related to physical and emotional health and well-being. Start conversations by asking about how the user's day went. In subsequent responses, try to shorten your answers and answer in a friendly, more casual tone."}
-        },
+        // "system_instruction":
+        // {
+        //   "parts":
+        //     { "text": "You are a helpful medical-oriented chatbot. You will help the user on issues related to physical and emotional health and well-being. Start conversations by asking about how the user's day went. In subsequent responses, try to shorten your answers and answer in a friendly, more casual tone."}
+        // },
         'contents': [
           {
             'parts': [

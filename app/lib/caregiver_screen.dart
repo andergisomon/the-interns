@@ -18,8 +18,6 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
-                                                textStyle: const TextStyle(fontSize: 16, fontFamily: 'Work Sans Semibold'));
 
     return Scaffold(
       appBar: AppBar(

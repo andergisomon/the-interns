@@ -6,6 +6,8 @@ import 'package:flutter/services.dart'; // For Clipboard
 import 'dart:convert'; // for JSON encoding/decoding
 import 'package:shared_preferences/shared_preferences.dart'; // temp caching
 
+bool isPresetprompt = false;
+
 class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({super.key});
   @override
@@ -44,8 +46,8 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     await prefs.setStringList(_messagesKey, messagesJson);
   }
 
-  void _sendMessage({String? presetMessage}) async {
-    final userInput = presetMessage ?? _controller.text;
+  void _sendMessage({String? message}) async {
+    final userInput = message ?? _controller.text;
     if (userInput.isNotEmpty) {
       setState(() {
         _messages.add(ChatMessage(text: userInput, isMe: true));
@@ -118,30 +120,55 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: SingleChildScrollView(
+      child: Column(
         children: [
           Expanded(
             child: _messages.isEmpty
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildPresetButton(
-                        title: 'Greeting',
-                        subtitle: 'Say hello to the bot',
-                        icon: Icons.waving_hand,
-                        onPressed: () => _sendMessage(presetMessage: 'Hello!'),
+                              const SizedBox(
+                                    height: 60, width: 500,
+                                    child: Padding(padding: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 25.0, right: 25.0),
+                                          child: Text("Hi there 🤗",
+                                                    style: TextStyle(fontFamily: 'Work Sans Black', color: Colors.black, fontSize: 38),
+                                                    textAlign: TextAlign.center,
+                          ),
+                        )
+                      ),
+                              const SizedBox(
+                                    height: 60, width: 500,
+                                    child: Padding(padding: EdgeInsets.only(top: 5.0, bottom: 0.0, left: 25.0, right: 25.0),
+                                          child: Text("Start the conversation by choosing any preset prompts below or send your own message.",
+                                                    style: TextStyle(fontFamily: 'Work Sans', color: Colors.blueGrey, fontSize: 13),
+                                                    textAlign: TextAlign.center,
+                          ),
+                        )
                       ),
                       _buildPresetButton(
-                        title: 'Ask for Help',
-                        subtitle: 'Ask the bot for help',
-                        icon: Icons.help_outline,
-                        onPressed: () => _sendMessage(presetMessage: 'Can you help me?'),
+                        title: 'Play',
+                        subtitle: 'Stimulate your brain by playing some brain teasers',
+                        icon: Icons.casino,
+                        onPressed: () {
+                        _sendMessage(message: 'Come up with 3 interactive puzzle games that can be played by the user via text sequentially. First, return the three games and ask which one the user wants to play. For each turn, Provide an option for the user to quit the game or to continue. The game should be simple and easy and entertain as well as stimulate the brain. The game should be turn-based and based on natural language. Remember, you are to play the game with the user.');
+                        },
                       ),
                       _buildPresetButton(
-                        title: 'Tell a Joke',
-                        subtitle: 'Ask the bot to tell a joke',
-                        icon: Icons.emoji_emotions,
-                        onPressed: () => _sendMessage(presetMessage: 'Tell me a joke!'),
+                        title: 'Summary',
+                        subtitle: "Analyze your personal data for insights and know what's up",
+                        icon: Icons.verified_user,
+                        onPressed: () {
+                        _sendMessage(message: 'Can you help me?');
+                        },
+                      ),
+                      _buildPresetButton(
+                        title: 'Health tips',
+                        subtitle: 'Recommend tips for mental and physical wellbeing',
+                        icon: Icons.spa,
+                        onPressed: () {
+                           _sendMessage(message: 'Give some recommendations to the user on maintaining mental and physical health. e.g. Steps that the user can take, things they can integrate into their daily or weekly routine, etc.');
+                        }                      
                       ),
                     ],
                   )
@@ -156,6 +183,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           _buildTextComposer(),
         ],
       ),
+    )
     );
   }
 
@@ -195,7 +223,8 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     required IconData icon,
     required VoidCallback onPressed,
   }) {
-    return Padding(
+    return SafeArea(
+      child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: ElevatedButton.icon(
         onPressed: onPressed,
@@ -212,6 +241,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           alignment: Alignment.centerLeft,
         ),
       ),
+    )
     );
   }
 }
@@ -235,16 +265,6 @@ class ChatMessage extends StatelessWidget {
         'isMe': isMe,
       };
 
-  // // Define a global key to access the current context.
-  // static final navigatorKey = GlobalKey<NavigatorState>();
-
-
-  // Future<void> _copyToClipboard(String text) async {
-  //   await Clipboard.setData(ClipboardData(text: text));
-  //   ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
-  //     const SnackBar(content: Text('Copied to Clipboard!'), duration: Duration(milliseconds: 750),),
-  //   );
-  // }
 Future<void> _copyToClipboard(BuildContext context, String text) async {
   await Clipboard.setData(ClipboardData(text: text));
 
@@ -282,7 +302,6 @@ Future<void> _copyToClipboard(BuildContext context, String text) async {
                   color: isMe ? const Color.fromARGB(255, 21, 92, 150) : const Color.fromARGB(255, 248, 219, 185),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-
                 child: MarkdownBody( // Use MarkdownBody instead of Text
                         data: text, // Your message text (which can contain Markdown)
                         styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).
@@ -302,7 +321,7 @@ Future<void> _copyToClipboard(BuildContext context, String text) async {
               margin: const EdgeInsets.only(left: 16.0),
               child: const CircleAvatar(child: Text('Me')),
             ),
-        ],
+            ],
       ),
     );
   }
