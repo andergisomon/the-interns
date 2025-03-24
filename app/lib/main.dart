@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignupPage(),
         '/home': (context) => const home.HomePage(),
         '/chatbot': (context) => const ChatbotScreen(),
-        '/medical_adherence': (context) => const MedicationAdherenceScreen(),
+        '/medical_adherence': (context) => const MedicalAdherencePage(),
         '/caregiver': (context) => const CaregiverPage(),
         '/profile': (context) => const ProfilePage(),
       },

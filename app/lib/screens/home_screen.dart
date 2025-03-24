@@ -20,7 +20,7 @@ class HomePageState extends State<HomePage> {
 
   static final List<Widget> _pages = <Widget>[
     Center(child: Text('Welcome to the Home Page!')),
-    MedicationAdherenceScreen(), // Correct method
+    MedicalAdherencePage(), // Correct method
     CaregiverPage(), // Correct method
     ProfilePage(), // Correct method
   ];
