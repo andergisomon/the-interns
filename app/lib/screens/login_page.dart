@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth.dart';
+import '../services/first_time_login_service.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
+  Future<void> _checkFirstTimeLogin(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final firstTimeLoginService = FirstTimeLoginService();
+      final firstTimeLogin = await firstTimeLoginService.getFirstTimeLogin(user.uid);
+      if (firstTimeLogin == null) {
+        Navigator.pushReplacementNamed(context, '/first_time_login');
+      } else {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final AuthService _authService = AuthService();
+    final AuthService authService = AuthService();
 
     return Scaffold(
       appBar: AppBar(
@@ -17,19 +31,15 @@ class LoginPage extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             try {
-              print('Sign in button pressed');
-              User? user = await _authService.signInWithGoogle();
+              final User? user = await authService.signInWithGoogle();
               if (user != null) {
-                print('Sign in successful: ${user.email}');
-                Navigator.pushReplacementNamed(context, '/home');
+                _checkFirstTimeLogin(context);
               } else {
-                print('Sign in failed');
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Failed to sign in with Google')),
                 );
               }
             } catch (e) {
-              print('Error during sign-in: $e');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Error during sign-in: $e')),
               );

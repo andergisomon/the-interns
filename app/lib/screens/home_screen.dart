@@ -5,6 +5,7 @@ import 'medical_adherence.dart'; // Correct import
 import 'caregiver_page.dart'; // Correct import
 import 'profile_page.dart'; // Correct import
 import '../navigation_panel.dart'; // Import the NavigationPanel
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 
 final AuthService _authService = AuthService();
 
@@ -16,13 +17,13 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  Offset _offset = Offset(100, 100);
 
   static final List<Widget> _pages = <Widget>[
     Center(child: Text('Welcome to the Home Page!')),
     MedicalAdherencePage(), // Correct method
     CaregiverPage(), // Correct method
     ProfilePage(), // Correct method
+    ChatbotScreen(), // Add ChatbotScreen to the pages list
   ];
 
   static final List<String> _titles = <String>[
@@ -30,6 +31,7 @@ class HomePageState extends State<HomePage> {
     'Medical Adherence',
     'Caregiver',
     'Profile',
+    'Chatbot', // Add title for Chatbot
   ];
 
   int _selectedIndex = 0; // Add selectedIndex to HomePageState
@@ -57,48 +59,11 @@ class HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          _pages[_selectedIndex], // Use the selected index from HomePageState
-          Positioned(
-            left: _offset.dx,
-            top: _offset.dy,
-            child: Draggable(
-              feedback: _buildChatBubble(),
-              childWhenDragging: Container(),
-              onDragEnd: (details) {
-                setState(() {
-                  _offset = details.offset;
-                });
-              },
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ChatbotScreen()),
-                  );
-                },
-                child: _buildChatBubble(),
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: _pages[_selectedIndex], // Use the selected index from HomePageState
       bottomNavigationBar: NavigationPanel(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ), // Use the NavigationPanel widget
-    );
-  }
-
-  Widget _buildChatBubble() {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(Icons.chat, color: Colors.white),
     );
   }
 }
