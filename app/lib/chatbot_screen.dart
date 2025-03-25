@@ -57,7 +57,14 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       _saveMessages(); // Save messages after adding a new one.
 
       try {
-        final botResponse = await getGeminiResponse(_apiKey, userInput);
+        // Create a structured conversation history
+        List<Map<String, dynamic>> conversationHistory = _messages.map((msg) => {
+              "role": msg.isMe ? "user" : "assistant",
+              "parts": [{"text" : msg.text}]
+            }).toList();
+
+        final botResponse = await getGeminiResponse(_apiKey, {'contents' : conversationHistory});
+        
         setState(() {
           _messages.add(ChatMessage(text: botResponse, isMe: false));
           _isBotTyping = false;
@@ -72,6 +79,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       }
     }
   }
+
 
   void _clearMessages() {
     setState(() {
@@ -120,14 +128,17 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-      child: Column(
-        children: [
-          Expanded(
-            child: _messages.isEmpty
-                ? Column(
+      body: Column(
+      children: [
+        Expanded(
+          child:
+          // Expanded( child:
+          _messages.isEmpty
+                ? Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 30),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                              SizedBox(height: 90-30,),
                               const SizedBox(
                                     height: 60, width: 500,
                                     child: Padding(padding: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 25.0, right: 25.0),
@@ -139,7 +150,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                       ),
                               const SizedBox(
                                     height: 60, width: 500,
-                                    child: Padding(padding: EdgeInsets.only(top: 5.0, bottom: 0.0, left: 25.0, right: 25.0),
+                                    child: Padding(padding: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 25.0, right: 25.0),
                                           child: Text("Start the conversation by choosing any preset prompts below or send your own message.",
                                                     style: TextStyle(fontFamily: 'Work Sans', color: Colors.blueGrey, fontSize: 13),
                                                     textAlign: TextAlign.center,
@@ -170,22 +181,30 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                            _sendMessage(message: 'Give some recommendations to the user on maintaining mental and physical health. e.g. Steps that the user can take, things they can integrate into their daily or weekly routine, etc.');
                         }                      
                       ),
+                      SizedBox(height: 130,),
                     ],
                   )
+        )
                 : ListView.builder(
+                    shrinkWrap: true, // flutter will crash if this isnt added
                     itemCount: _messages.length,
                     itemBuilder: (context, index) {
                       return _messages[index];
                     },
                   ),
           ),
-          TypingIndicator(isTyping: _isBotTyping),
-          _buildTextComposer(),
-        ],
-      ),
-    )
-    );
-  }
+        TypingIndicator(isTyping: _isBotTyping),
+          Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 0.0),
+            child: _buildTextComposer(),
+          )
+          ),
+      ],
+    ),
+  );
+}
 
   Widget _buildTextComposer() {
     return SafeArea(
@@ -225,7 +244,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   }) {
     return SafeArea(
       child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 10.0, bottom: MediaQuery.of(context).viewInsets.bottom),
       child: ElevatedButton.icon(
         onPressed: onPressed,
         icon: Icon(icon, size: 32),
