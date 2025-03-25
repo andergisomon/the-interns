@@ -11,7 +11,7 @@ class FirstTimeLoginService {
         .set(firstTimeLogin.toMap());
   }
 
-  Future<FirstTimeLogin?> getFirstTimeLogin(String userId) async {
+  Future<FirstTimeLogin?> getFirstTimeFormData(String userId) async {
     DocumentSnapshot doc = await _firestore.collection('users').doc(userId).get();
     if (doc.exists) {
       return FirstTimeLogin.fromMap(doc.data() as Map<String, dynamic>);

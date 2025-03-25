@@ -21,7 +21,7 @@ class HomePageState extends State<HomePage> {
   static final List<Widget> _pages = <Widget>[
     Center(child: Text('Welcome to the Home Page!')),
     MedicalAdherencePage(), // Correct method
-    CaregiverPage(), // Correct method
+    CaregiverScreen(), // Correct method
     ProfilePage(), // Correct method
     ChatbotScreen(), // Add ChatbotScreen to the pages list
   ];

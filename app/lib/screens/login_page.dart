@@ -10,7 +10,7 @@ class LoginPage extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final firstTimeLoginService = FirstTimeLoginService();
-      final firstTimeLogin = await firstTimeLoginService.getFirstTimeLogin(user.uid);
+      final firstTimeLogin = await firstTimeLoginService.getFirstTimeFormData(user.uid);
       if (firstTimeLogin == null) {
         Navigator.pushReplacementNamed(context, '/first_time_login');
       } else {

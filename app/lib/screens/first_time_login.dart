@@ -75,7 +75,7 @@ class FirstTimeLoginPageState extends State<FirstTimeLoginPage> {
   Future<void> _checkFirstTimeLogin() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      final firstTimeLogin = await _service.getFirstTimeLogin(user.uid);
+      final firstTimeLogin = await _service.getFirstTimeFormData(user.uid);
       if (firstTimeLogin != null) {
         if (!mounted) return;
         Navigator.pushReplacementNamed(context, '/home');

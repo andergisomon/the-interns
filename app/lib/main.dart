@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const home.HomePage(),
         '/chatbot': (context) => const ChatbotScreen(),
         '/medical_adherence': (context) => const MedicalAdherencePage(),
-        '/caregiver': (context) => const CaregiverPage(),
+        '/caregiver': (context) => const CaregiverScreen(),
         '/profile': (context) => const ProfilePage(),
       },
     );

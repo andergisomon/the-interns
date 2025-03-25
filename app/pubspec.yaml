@@ -41,6 +41,10 @@ dependencies:
   google_sign_in: ^6.3.0
   cloud_firestore: ^5.6.5
 
+  http: ^1.3.0
+  flutter_markdown: ^0.7.6+2
+  loading_animation_widget: ^1.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -60,6 +64,10 @@ flutter:
 
   assets:
     - assets/signin-assets/Android/png@1x/light/android_light_rd_na@1x.png
+    - assets/images/
+    - assets/images/caregiver_carousel/
+    - assets/images/caregiver_hero.png
+    - assets/images/caregiver_hero.svg
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -97,3 +105,17 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+  
+  fonts:
+    - family: Work Sans
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-Regular.ttf
+    - family: Work Sans Medium
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf
+    - family: Work Sans Semibold
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
+    - family: Work Sans Black
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-Black.ttf
