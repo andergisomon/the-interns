@@ -10,6 +10,7 @@ import 'screens/meds_tracker.dart';
 import 'screens/caregiver_page.dart';
 import 'screens/profile_page.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         '/meds_tracker': (context) => const MedsTrackerPage(),
         '/caregiver': (context) => const CaregiverScreen(),
         '/profile': (context) => const ProfilePage(),
+        
       },
     );
   }
