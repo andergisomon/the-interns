@@ -29,7 +29,7 @@ class NavigationPanelState extends State<NavigationPanel> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.medical_services),
-          label: 'Medical Adherence',
+          label: 'Meds',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.people),

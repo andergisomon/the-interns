@@ -20,9 +20,10 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Caregiver'), // Add an AppBar title
-      ),
+      appBar: null,
+      // AppBar(
+      //   title: null, // const Text('Caregiver'), // Add an AppBar title
+      // ),
       
       body: ListView(
       children: <Widget>[

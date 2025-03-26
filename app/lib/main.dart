@@ -6,7 +6,7 @@ import 'screens/login_page.dart';
 import 'screens/signup_page.dart';
 import 'screens/home_screen.dart' as home;
 import 'screens/chatbot_screen.dart';
-import 'screens/medical_adherence.dart';
+import 'screens/meds_tracker.dart';
 import 'screens/caregiver_page.dart';
 import 'screens/profile_page.dart';
 
@@ -33,16 +33,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        textTheme: const TextTheme(
+          labelSmall: TextStyle(fontFamily: 'Work Sans Medium'),
+          labelMedium: TextStyle(fontFamily: 'Work Sans Medium'),
+          labelLarge: TextStyle(fontFamily: 'Work Sans Medium'),
+          bodySmall: TextStyle(fontFamily: 'Work Sans Medium'),
+          bodyMedium: TextStyle(fontFamily: 'Work Sans Medium'),
+          bodyLarge: TextStyle(fontFamily: 'Work Sans Medium'),
+          headlineLarge: TextStyle(fontFamily: 'Work Sans Medium'),
+          titleLarge: TextStyle(fontFamily: 'Work Sans Semibold'),
+        ),
       ),
-      initialRoute: '/',
+      initialRoute: '/home', // originally just '/',
       routes: {
-        '/': (context) => const StartupPage(),
-        '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignupPage(),
+        // '/': (context) => const StartupPage(),
+        // '/login': (context) => const LoginPage(),
+        // '/signup': (context) => const SignupPage(),
         '/home': (context) => const home.HomePage(),
         '/chatbot': (context) => const ChatbotScreen(),
-        '/medical_adherence': (context) => const MedicalAdherencePage(),
+        '/meds_tracker': (context) => const MedsTrackerPage(),
         '/caregiver': (context) => const CaregiverScreen(),
         '/profile': (context) => const ProfilePage(),
       },

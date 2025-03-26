@@ -120,7 +120,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chatbot'),
+        title: null, // const Text('Chatbot'),
         actions: [
           TextButton.icon(
             onPressed: _showClearChatConfirmationDialog,
@@ -210,9 +210,14 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   Widget _buildTextComposer() {
     return SafeArea(
       bottom: true,
-      minimum: EdgeInsets.only(bottom: 18.0, left: 12.0),
+      minimum: EdgeInsets.zero,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        margin: null, // const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        decoration: BoxDecoration(
+          color: Colors.white, // White background color
+          borderRadius: null,
+        ),
         child: Row(
           children: [
             Flexible(

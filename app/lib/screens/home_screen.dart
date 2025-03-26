@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth.dart';
 import 'chatbot_screen.dart';
-import 'medical_adherence.dart'; // Correct import
+import 'meds_tracker.dart'; // Correct import
 import 'caregiver_page.dart'; // Correct import
 import 'profile_page.dart'; // Correct import
 import '../navigation_panel.dart'; // Import the NavigationPanel
@@ -20,7 +20,7 @@ class HomePageState extends State<HomePage> {
 
   static final List<Widget> _pages = <Widget>[
     Center(child: Text('Welcome to the Home Page!')),
-    MedicalAdherencePage(), // Correct method
+    MedsTrackerPage(), // Correct method
     CaregiverScreen(), // Correct method
     ProfilePage(), // Correct method
     ChatbotScreen(), // Add ChatbotScreen to the pages list
@@ -28,7 +28,7 @@ class HomePageState extends State<HomePage> {
 
   static final List<String> _titles = <String>[
     'Home Page',
-    'Medical Adherence',
+    'Meds Tracker',
     'Caregiver',
     'Profile',
     'Chatbot', // Add title for Chatbot

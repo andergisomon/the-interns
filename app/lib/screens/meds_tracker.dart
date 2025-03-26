@@ -4,14 +4,14 @@ import 'package:intl/intl.dart';
 import '../services/medical_adherence_service.dart';
 import '../dataframe/medical_adherence_df.dart';
 
-class MedicalAdherencePage extends StatefulWidget {
-  const MedicalAdherencePage({super.key});
+class MedsTrackerPage extends StatefulWidget {
+  const MedsTrackerPage({super.key});
 
   @override
-  MedicalAdherencePageState createState() => MedicalAdherencePageState(); // Make the type public
+  MedsTrackerPageState createState() => MedsTrackerPageState(); // Make the type public
 }
 
-class MedicalAdherencePageState extends State<MedicalAdherencePage> {
+class MedsTrackerPageState extends State<MedsTrackerPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _medicationNameController = TextEditingController();
   final TextEditingController _dosageController = TextEditingController();
@@ -88,11 +88,12 @@ class MedicalAdherencePageState extends State<MedicalAdherencePage> {
     final List<MedicalAdherence> pastMedications = _medications.where((med) => med.endDate.isBefore(now)).toList();
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: null,
+      // AppBar(
 
-      ),
+      // ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(24.0),
         child: ListView(
           children: [
             const Text('Active Medications', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
