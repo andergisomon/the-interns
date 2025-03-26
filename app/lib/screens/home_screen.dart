@@ -22,16 +22,16 @@ class HomePageState extends State<HomePage> {
     Center(child: Text('Welcome to the Home Page!')),
     MedsTrackerPage(), // Correct method
     CaregiverScreen(), // Correct method
-    ProfilePage(), // Correct method
     ChatbotScreen(), // Add ChatbotScreen to the pages list
+    ProfilePage(), // Correct method
   ];
 
   static final List<String> _titles = <String>[
     'Home Page',
-    'Meds Tracker',
+    'Medical Tracker',
     'Caregiver',
-    'Profile',
-    'Chatbot', // Add title for Chatbot
+    'Chatbot',
+    'Profile', // Add title for Chatbot
   ];
 
   int _selectedIndex = 0; // Add selectedIndex to HomePageState
@@ -47,6 +47,7 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_titles[_selectedIndex]), // Update the title dynamically
+        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -98,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, '/login');
               }
             },
-          ),
+          ),  
         ],
       ),
       body: Center(

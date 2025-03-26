@@ -36,12 +36,12 @@ class NavigationPanelState extends State<NavigationPanel> {
           label: 'Caregiver',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.chat),
           label: 'Chatbot', // Add Chatbot button
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Profile',
         ),
       ],
       currentIndex: widget.selectedIndex,

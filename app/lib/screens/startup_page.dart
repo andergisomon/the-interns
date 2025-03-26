@@ -114,7 +114,7 @@ class _StartupPageState extends State<StartupPage> {
               onPressed: () async {
                 User? user = await _signInWithGoogle();
                 if (user != null) {
-                  Navigator.pushReplacementNamed(context, '/home');
+                  Navigator.pushReplacementNamed(context, '/firstForm');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Failed to sign in with Google')),
