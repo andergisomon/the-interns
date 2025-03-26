@@ -6,7 +6,7 @@ class MedicalAdherenceService {
 
   Future<void> saveMedicalAdherence(MedicalAdherence adherence) async {
     await _firestore
-        .collection('medicalAdherence - users')
+        .collection('medicalTracker - users')
         .doc(adherence.userId)
         .collection('medications')
         .add(adherence.toMap());
@@ -14,7 +14,7 @@ class MedicalAdherenceService {
 
   Future<List<MedicalAdherence>> getMedicalAdherence(String userId) async {
     QuerySnapshot querySnapshot = await _firestore
-        .collection('medicalAdherence - users')
+        .collection('medicalTracker - users')
         .doc(userId)
         .collection('medications')
         .get();

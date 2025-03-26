@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:lebui_modsu/screens/first_time_login.dart';
 import 'package:logging/logging.dart';
 import 'screens/startup_page.dart';
 import 'screens/login_page.dart';
@@ -44,16 +45,17 @@ class MyApp extends StatelessWidget {
           titleLarge: TextStyle(fontFamily: 'Work Sans Semibold'),
         ),
       ),
-      initialRoute: '/home', // originally just '/',
+      initialRoute: '/', // originally just '/',
       routes: {
-        // '/': (context) => const StartupPage(),
-        // '/login': (context) => const LoginPage(),
-        // '/signup': (context) => const SignupPage(),
+        '/': (context) => const StartupPage(),
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignupPage(),
+        '/firstForm': (context) => const FirstTimeLoginPage(),
         '/home': (context) => const home.HomePage(),
         '/chatbot': (context) => const ChatbotScreen(),
         '/meds_tracker': (context) => const MedsTrackerPage(),
         '/caregiver': (context) => const CaregiverScreen(),
-        '/profile': (context) => const ProfilePage(),
+        '/profile': (context) => ProfilePage(),
       },
     );
   }
