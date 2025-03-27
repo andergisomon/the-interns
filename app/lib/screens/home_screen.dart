@@ -92,8 +92,15 @@ class HomeScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(
+            height: 230,
+            width: 300,
+            child: Image(
+              image: AssetImage('assets/images/home_evening.jpg'),
+            )
+              ),
               Text(
                 '${_getGreeting()}, $userNickname!',
                 style: Theme.of(context).textTheme.headlineSmall,
@@ -110,23 +117,23 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Today's stats",
+                        "Today's stats🎯",
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          Text('Steps: 5,432'),
-                          Text('Calories Burned: 320'),
+                          Text('Steps🏃: 5,432'),
+                          Text('Calories burned🔥: 320'),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          Text('Water Intake: 1.5L'),
                           Text('Sleep: 7h 30m'),
+                          Text('Sleep quality: Great'),
                         ],
                       ),
                     ],

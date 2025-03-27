@@ -68,45 +68,113 @@ class GeneratedReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Generated Report'),
+        title: Text('Healthcare Report'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Container(
+        child: ListView(
+          children: [
+            Card(
+              elevation: 4,
               margin: EdgeInsets.symmetric(vertical: 8),
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.primaries[index % Colors.primaries.length],
-                borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Sleep Quality',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text('Average Sleep Quality: 85%'),
+                    SizedBox(height: 4),
+                    Text('Hours of Sleep (Last 7 Days): 7h, 6h, 8h, 7h, 6h, 7h, 8h'),
+                  ],
+                ),
               ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.info,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Title ${index + 1}',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Subtitle ${index + 1}',
-                        style: TextStyle(fontSize: 14, color: Colors.white70),
-                      ),
-                    ],
-                  ),
-                ],
+            ),
+            Card(
+              elevation: 4,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Heart Rate',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text('Resting Heart Rate: 72 bpm'),
+                    SizedBox(height: 4),
+                    Text('Average Heart Rate (Last 7 Days): 75 bpm'),
+                  ],
+                ),
               ),
-            );
-          },
+            ),
+            Card(
+              elevation: 4,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Step Count',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text('Total Steps (Last 7 Days): 56,000 steps'),
+                    SizedBox(height: 4),
+                    Text('Daily Average: 8,000 steps'),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 4,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Calories Burned',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text('Total Calories Burned (Last 7 Days): 14,000 kcal'),
+                    SizedBox(height: 4),
+                    Text('Daily Average: 2,000 kcal'),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 4,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hydration',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Text('Average Water Intake (Last 7 Days): 2.5L/day'),
+                    SizedBox(height: 4),
+                    Text('Recommended: 3L/day'),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
