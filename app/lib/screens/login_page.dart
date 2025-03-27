@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Page'),
+        title: null //const Text('Welcome to Suaunaau'),
       ),
       body: Center(
         child: ElevatedButton(

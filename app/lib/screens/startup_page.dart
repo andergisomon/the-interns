@@ -58,13 +58,18 @@ class _StartupPageState extends State<StartupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: null // const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(child: Text("Welcome 😊",
+                                style: TextStyle(fontFamily: 'Work Sans Black', color: Colors.black, fontSize: 38),
+                                textAlign: TextAlign.center,
+                          )
+                        ),
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),

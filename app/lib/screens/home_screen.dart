@@ -17,9 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-
   static final List<Widget> _pages = <Widget>[
-    Center(child: Text('Welcome to the Home Page!')),
+    HomeScreen(userNickname: 'Harold'), // Updated to use HomeScreen
     MedsTrackerPage(), // Correct method
     CaregiverScreen(), // Correct method
     ChatbotScreen(), // Add ChatbotScreen to the pages list
@@ -88,22 +87,122 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              await _authService.signOut();
-              if (context.mounted) {
-                Navigator.pushReplacementNamed(context, '/login');
-              }
-            },
-          ),  
-        ],
+      appBar: null,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${_getGreeting()}, $userNickname!',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 16),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Health Summary',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text('Steps Today: 5,432'),
+                          Text('Calories Burned: 320'),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text('Water Intake: 1.5L'),
+                          Text('Sleep: 7h 30m'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Quick Actions',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildQuickAction(
+                    context,
+                    icon: Icons.local_hospital,
+                    label: 'Doctor',
+                    onTap: () {
+                      // Navigate to doctor appointment page
+                    },
+                  ),
+                  _buildQuickAction(
+                    context,
+                    icon: Icons.medication,
+                    label: 'Medications',
+                    onTap: () {
+                      // Navigate to medications page
+                    },
+                  ),
+                  _buildQuickAction(
+                    context,
+                    icon: Icons.fitness_center,
+                    label: 'Fitness',
+                    onTap: () {
+                      // Navigate to fitness tracker
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    '"Take care of your body. It’s the only place you have to live." - Jim Rohn',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      body: Center(
-        child: Text('${_getGreeting()}, $userNickname!'),
+    );
+  }
+
+  Widget _buildQuickAction(BuildContext context,
+      {required IconData icon, required String label, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            child: Icon(icon, size: 30),
+          ),
+          const SizedBox(height: 8),
+          Text(label, style: Theme.of(context).textTheme.bodySmall),
+        ],
       ),
     );
   }
