@@ -12,20 +12,34 @@ class WellnessReportScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Wellness Report',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                SizedBox(
+                  height: 200,
+                  child: Image(image: AssetImage('assets/images/wellness_report/wellness_generate.png')
                 ),
-                SizedBox(height: 8),
+              ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child:
+                      Text(
+                          'At a glance',
+                          style: TextStyle(fontSize: 24, fontFamily: 'Work Sans Black'),
+                          textAlign: TextAlign.center,
+                        )
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                child:
                 Text(
-                  'This screen allows you to generate a wellness report.',
+                  'Generate a brief report of your wellness based on relevant data. Track your health and find actionable steps to improve.',
                   style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
+                  textAlign: TextAlign.center,
+                )
+              ),
               ],
             ),
             ElevatedButton(
@@ -35,7 +49,12 @@ class WellnessReportScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => GeneratedReportScreen()),
                 );
               },
-              child: Text('Generate'),
+              style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF8A2BE2),
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(fontSize: 16, fontFamily: 'Work Sans Semibold'),
+                ),
+              child: const Text('Generate'),
             ),
           ],
         ),

@@ -110,14 +110,14 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Health Summary',
+                        "Today's stats",
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          Text('Steps Today: 5,432'),
+                          Text('Steps: 5,432'),
                           Text('Calories Burned: 320'),
                         ],
                       ),

@@ -74,6 +74,7 @@ flutter:
     - assets/images/caregiver_hero.png
     - assets/images/caregiver_hero.svg
     - assets/images/caregiver_carousel/wellness.png
+    - assets/images/wellness_report/wellness_generate.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
