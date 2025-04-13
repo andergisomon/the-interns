@@ -10,6 +10,7 @@ import 'screens/chatbot_screen.dart';
 import 'screens/meds_tracker.dart';
 import 'screens/caregiver_page.dart';
 import 'screens/profile_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 void main() async {
@@ -17,6 +18,7 @@ void main() async {
   await Firebase.initializeApp();
   _setupLogging();
   runApp(MyApp());
+  await dotenv.load(fileName: ".env");
 }
 
 void _setupLogging() {

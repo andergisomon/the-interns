@@ -5,6 +5,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter/services.dart'; // For Clipboard
 import 'dart:convert'; // for JSON encoding/decoding
 import 'package:shared_preferences/shared_preferences.dart'; // temp caching
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 bool isPresetprompt = false;
 
@@ -18,7 +19,7 @@ class ChatbotScreen extends StatefulWidget {
 class _ChatbotScreenState extends State<ChatbotScreen> {
   final TextEditingController _controller = TextEditingController();
   List<ChatMessage> _messages = [];
-  final String _apiKey = 'AIzaSyBGkAvvrnNGbemJ_fHyaYOAOVxyb0u8rVQ'; // Replace with your actual API key
+  final String _apiKey = dotenv.env["GEMINI_API_KEY"]!;
   bool _isBotTyping = false;
   static const String _messagesKey = 'chatbot_messages'; // Key for saving messages
 
