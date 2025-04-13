@@ -44,4 +44,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+<<<<<<< HEAD
+#ignore Firebase config files
+google-services.json
+=======
 .env
+>>>>>>> 5cad124db17d876a9e0a277c7f42564fbc42a12b
