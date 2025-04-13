@@ -1,4 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '/services/chatbot_api_handler.dart';
+
+class ReportBulletpoint {
+  static const String sleep_quality = "";
+  static const String heart_rate = "";
+  static const String step_count = "";
+  static const String calories_burned = "";
+  static const String hydration = "";
+  static const String meds_trackerinfo = "";
+}
+
+Future<String> generateReportBulletpoint(final String apiKey, String context, String message) async {
+  String combinedMessage = '$context: $message';
+  String apiResponse = await getGeminiResponseQuick(apiKey, combinedMessage);
+  return apiResponse;
+}
 
 class WellnessReportScreen extends StatelessWidget {
   const WellnessReportScreen({super.key});
@@ -64,6 +81,7 @@ class WellnessReportScreen extends StatelessWidget {
 }
 
 class GeneratedReportScreen extends StatelessWidget {
+  final String _apiKey = dotenv.env["GEMINI_API_KEY"]!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,6 +186,37 @@ class GeneratedReportScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text('Average Water Intake (Last 7 Days): 2.5L/day'),
+                    SizedBox(height: 4),
+                    Text('Recommended: 3L/day'),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 4,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hydration',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    FutureBuilder<String>(
+                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.meds_trackerinfo, "Prompt Gemini further"),
+                      builder: (context, snapshot) { // actually ReportBulletpoint.meds_trackerinfo should not be static field, it should be assigned some value fetched by getMedicalAdherence from services/medical_adherence_service.dart
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Text('Loading...');
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return Text(snapshot.data ?? 'No data');
+                        }
+                      },
+                    ),
                     SizedBox(height: 4),
                     Text('Recommended: 3L/day'),
                   ],
