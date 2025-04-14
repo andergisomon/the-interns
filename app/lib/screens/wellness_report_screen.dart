@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '/services/chatbot_api_handler.dart';
+import '/services/medical_adherence_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class ReportBulletpoint {
-  static const String sleep_quality = "";
-  static const String heart_rate = "";
-  static const String step_count = "";
-  static const String calories_burned = "";
-  static const String hydration = "";
-  static const String meds_trackerinfo = "";
+  static const String sleep_quality = "Generate a brief description of a user's sleep quality. Provide any reasonable sleep quality score that the user had.";
+  static const String heart_rate = "Generate a brief description of the heart rate history of a user in the past few weeks. Provide any reasonable number.";
+  static const String step_count = "Generate a brief description of a user's total number of steps. Provide any number.";
+  static const String calories_burned = "Generate a brief description of the total amount of calories burned by the user. Provide any number.";
+  static const String hydration = "Generate a brief description of how hydrated the user had been. Provide any reasonable hydration score that the user had.";
+  static const String meds_trackerinfo = "Generate a brief description of the tracked medications the user is on. Simply describe the information into easily understandable language.";
 }
+final user = FirebaseAuth.instance.currentUser!;
+final MedicalAdherenceService service = MedicalAdherenceService();
 
-Future<String> generateReportBulletpoint(final String apiKey, String context, String message) async {
+// If you're putting in ReportBulletpoint.meds_trackerinfo for context, pass a null string for message
+Future<String> generateReportBulletpoint(final String apiKey, String context, String? message) async {
+  if (context == ReportBulletpoint.meds_trackerinfo && message == null) {
+    message = (await service.getMedicalAdherence(user.uid)) as String?;
+  }
   String combinedMessage = '$context: $message';
   String apiResponse = await getGeminiResponseQuick(apiKey, combinedMessage);
   return apiResponse;
@@ -206,7 +215,7 @@ class GeneratedReportScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     FutureBuilder<String>(
-                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.meds_trackerinfo, "Prompt Gemini further"),
+                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.meds_trackerinfo, "Prompt Gemini further here"),
                       builder: (context, snapshot) { // actually ReportBulletpoint.meds_trackerinfo should not be static field, it should be assigned some value fetched by getMedicalAdherence from services/medical_adherence_service.dart
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return Text('Loading...');
