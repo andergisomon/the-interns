@@ -22,4 +22,22 @@ class MedicalAdherenceService {
         .map((doc) => MedicalAdherence.fromMap(doc.data() as Map<String, dynamic>))
         .toList();
   }
+
+    Future<MedicalAdherence> getMedicalAdherence_simple(String userId) async {
+      final snapshot = await _firestore
+          .collection('medicalTracker - users')
+          .doc(userId)
+          .collection('medications')
+          .get();
+      
+      // Create a temporary map to hold all the pieces
+      Map<String, dynamic> dataMap = {};
+
+      for (var doc in snapshot.docs) {
+        dataMap.addAll(doc.data());
+      }
+
+      return MedicalAdherence.fromMap(dataMap);
+  }
+
 }
