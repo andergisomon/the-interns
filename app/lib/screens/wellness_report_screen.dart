@@ -12,8 +12,9 @@ class ReportBulletpoint {
   static const String step_count = "Generate a brief description of a user's total number of steps. Provide any number.";
   static const String calories_burned = "Generate a brief description of the total amount of calories burned by the user. Provide any number.";
   static const String hydration = "Generate a brief description of how hydrated the user had been. Provide any reasonable hydration score that the user had.";
-  static const String meds_info_medication_name = "";  
-  static const String meds_info_dosage = "Generate a brief description of the tracked medications the user is on. Simply describe the information into easily understandable language.";
+  static const String meds_info = "Generate a brief description of the tracked medications the user is on. Simply describe the information into easily understandable language.\n";
+  static const String meds_info_medication_name = "";
+  static const String meds_info_dosage = "";
   static const String meds_info_unit = "";
   static const String meds_info_start_date = "";
   static const String meds_info_end_date = "";
@@ -28,33 +29,39 @@ Future<String> generateReportBulletpoint(final String apiKey, String context) as
   String message = "";
 
   switch (context) {
-    case ReportBulletpoint.meds_info_dosage:
-      message = (await medical_adherence_service.getMedicalAdherence_simple(user.uid)).dosage;
+    case ReportBulletpoint.meds_info:
+      final medication = await medical_adherence_service.getMedicalAdherence_demo(user.uid);
+      message = '${medication.medicationName} ${medication.dosage} ${medication.unit} x${medication.timesPerDay}';
       break;
 
     case ReportBulletpoint.sleep_quality:
-      message = (await health_stats_service.getHealthStats(user.uid)).sleepQuality as String;
+      final healthStats = await health_stats_service.getHealthStats(user.uid);
+      message = healthStats.sleepQuality.toString();
       break;
 
     case ReportBulletpoint.heart_rate:
-      message = (await health_stats_service.getHealthStats(user.uid)).heartRate as String;
+      final healthStats = await health_stats_service.getHealthStats(user.uid);
+      message = healthStats.heartRate.toString();
       break;
 
     case ReportBulletpoint.step_count:
-      message = (await health_stats_service.getHealthStats(user.uid)).stepCount as String;
+      final healthStats = await health_stats_service.getHealthStats(user.uid);
+      message = healthStats.stepCount.toString();
       break;
 
     case ReportBulletpoint.calories_burned:
-      message = (await health_stats_service.getHealthStats(user.uid)).caloriesBurned as String;
+      final healthStats = await health_stats_service.getHealthStats(user.uid);
+      message = healthStats.caloriesBurned.toString();
       break;
 
     case ReportBulletpoint.hydration:
-      message = (await health_stats_service.getHealthStats(user.uid)).hydration as String;
+      final healthStats = await health_stats_service.getHealthStats(user.uid);
+      message = healthStats.hydration.toString();
       break;
   }
 
-  String combinedMessage = '$context: $message';
-  String apiResponse = await getGeminiResponseQuick(apiKey, combinedMessage);
+  final combinedMessage = '$context: $message';
+  final apiResponse = await getGeminiResponseQuick(apiKey, combinedMessage);
   return apiResponse;
 }
 
@@ -242,12 +249,12 @@ class GeneratedReportScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hydration',
+                      'Current medication',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
                     FutureBuilder<String>(
-                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.meds_info_dosage),
+                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.meds_info),
                       builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Text('Loading...');

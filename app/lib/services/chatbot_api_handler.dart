@@ -12,15 +12,15 @@ Future<String> getGeminiResponse(String apiKey, dynamic userInput) async {
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-    //   body: jsonEncode({
-    //     'contents': [
-    //       {
-    //         'parts': [
-    //           {'text': userInput}
-    //         ]
-    //       }
-    //     ],
-    //   }),
+      // body: jsonEncode({
+      //   'contents': [
+      //     {
+      //       'parts': [
+      //         {'text': userInput}
+      //       ]
+      //     }
+      //   ],
+      // }),
       body: jsonEncode(userInput)
 
     );
@@ -44,15 +44,19 @@ Future<String> getGeminiResponseQuick(String apiKey, String userInput) async {
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'prompt': {
-          'text': userInput
-        }
+        'contents': [
+          {
+            'parts': [
+              {'text': userInput}
+            ]
+          }
+        ],
       }),
     );
 
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
-      final generatedText = decodedResponse['candidates'][0]['content'];
+      final generatedText = decodedResponse['candidates'][0]['content']['parts'][0]['text'];
       return generatedText;
     } else {
       return 'Error: Could not get response. Status code ${response.statusCode}\n ${response.body}';
