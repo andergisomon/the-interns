@@ -23,25 +23,14 @@ class MedicalAdherenceService {
         .toList();
   }
 
-  Future<MedicalAdherence> getMedicalAdherence_demo(String userId) async {
-    MedicalAdherence first_medication = (await getMedicalAdherence(userId))[0];
+  Future<MedicalAdherence> getMedicalAdherence_demo(String userId, int index) async {
+    MedicalAdherence first_medication = (await getMedicalAdherence(userId))[index];
     return first_medication;
   }
 
-  //   Future<MedicalAdherence> getMedicalAdherence_demo(String userId) async {
-  //     final snapshot = await _firestore
-  //         .collection('medicalTracker - users')
-  //         .doc(userId)
-  //         .collection('medications')
-  //         .doc('8D5LiUpxr9ZnIILDuDPF') // Firestore will not accept this query
-  //         .get();
-      
-  //     // Create a temporary map to hold all the pieces
-  //     Map<String, dynamic> dataMap = {};
-
-  //     dataMap.addAll(snapshot.data()!);
-
-  //     return MedicalAdherence.fromMap(dataMap);
-  // }
+  Future<int> howLong(String userId) async {
+    List<MedicalAdherence> list = await getMedicalAdherence(userId);
+    return list.length;
+  }
 
 }

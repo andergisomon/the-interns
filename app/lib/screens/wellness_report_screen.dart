@@ -4,15 +4,17 @@ import 'package:lebui_modsu/services/health_stats_service.dart';
 import '/services/chatbot_api_handler.dart';
 import '/services/medical_adherence_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+
 
 
 class ReportBulletpoint {
-  static const String sleep_quality = "Generate a brief description of a user's sleep quality. Provide any reasonable sleep quality score that the user had.";
-  static const String heart_rate = "Generate a brief description of the heart rate history of a user in the past few weeks. Provide any reasonable number.";
-  static const String step_count = "Generate a brief description of a user's total number of steps. Provide any number.";
-  static const String calories_burned = "Generate a brief description of the total amount of calories burned by the user. Provide any number.";
-  static const String hydration = "Generate a brief description of how hydrated the user had been. Provide any reasonable hydration score that the user had.";
-  static const String meds_info = "Generate a brief description of the tracked medications the user is on. Simply describe the information into easily understandable language.\n";
+  static const String sleep_quality = "Generate a brief description of a user's sleep quality. You may refer to the user using a second person pronoun. Provide any reasonable sleep quality score that the user had.";
+  static const String heart_rate = "Generate a brief description of the heart rate history of a user in the past few weeks. You may refer to the user using a second person pronoun. Provide any reasonable number.";
+  static const String step_count = "Generate a brief description of a user's total number of steps. You may refer to the user using a second person pronoun. Provide any number.";
+  static const String calories_burned = "Generate a brief description of the total amount of calories burned by the user. You may refer to the user using a second person pronoun. Provide any number.";
+  static const String hydration = "Generate a brief description of how hydrated the user had been. You may refer to the user using a second person pronoun. Provide any reasonable hydration score that the user had.";
+  static const String meds_info = "Generate a brief description of the tracked medications the user is on. You may refer to the user using a second person pronoun. Simply describe the information into easily understandable language.\n";
   static const String meds_info_medication_name = "";
   static const String meds_info_dosage = "";
   static const String meds_info_unit = "";
@@ -30,33 +32,39 @@ Future<String> generateReportBulletpoint(final String apiKey, String context) as
 
   switch (context) {
     case ReportBulletpoint.meds_info:
-      final medication = await medical_adherence_service.getMedicalAdherence_demo(user.uid);
-      message = '${medication.medicationName} ${medication.dosage} ${medication.unit} x${medication.timesPerDay}';
+      final length = await medical_adherence_service.howLong(user.uid);
+      int i = 0;
+      while (i < length) {
+        final medication = await medical_adherence_service.getMedicalAdherence_demo(user.uid, i);
+        String _message = '\nMedication ${i} name is ${medication.medicationName}, the dosage is ${medication.dosage}, with unit: ${medication.unit}, taken x${medication.timesPerDay} times a day.';
+        message = message + _message;
+        i = i + 1;
+      }
       break;
 
     case ReportBulletpoint.sleep_quality:
       final healthStats = await health_stats_service.getHealthStats(user.uid);
-      message = healthStats.sleepQuality.toString();
+      message = 'Sleep quality score is ${healthStats.sleepQuality.toString()}';
       break;
 
     case ReportBulletpoint.heart_rate:
       final healthStats = await health_stats_service.getHealthStats(user.uid);
-      message = healthStats.heartRate.toString();
+      message = 'Heart rate is ${healthStats.heartRate.toString()}';
       break;
 
     case ReportBulletpoint.step_count:
       final healthStats = await health_stats_service.getHealthStats(user.uid);
-      message = healthStats.stepCount.toString();
+      message = 'Number of steps is ${healthStats.stepCount.toString()}';
       break;
 
     case ReportBulletpoint.calories_burned:
       final healthStats = await health_stats_service.getHealthStats(user.uid);
-      message = healthStats.caloriesBurned.toString();
+      message = 'Amount of calories burned is ${healthStats.caloriesBurned.toString()}';
       break;
 
     case ReportBulletpoint.hydration:
       final healthStats = await health_stats_service.getHealthStats(user.uid);
-      message = healthStats.hydration.toString();
+      message = 'Level of hydration is ${healthStats.hydration.toString()}';
       break;
   }
 
@@ -261,12 +269,10 @@ class GeneratedReportScreen extends StatelessWidget {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {
-                        return Text(snapshot.data ?? 'No data');
+                        return MarkdownBody(data: snapshot.data ?? 'No data');
                       }
                       },
                     ),
-                    SizedBox(height: 4),
-                    Text('Recommended: 3L/day'),
                   ],
                 ),
               ),
