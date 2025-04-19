@@ -120,7 +120,7 @@ class WellnessReportScreen extends StatelessWidget {
                     foregroundColor: Colors.white,
                     textStyle: const TextStyle(fontSize: 16, fontFamily: 'Work Sans Semibold'),
                 ),
-              child: const Text('Generate'),
+              child: const Text('✨Generate'),
             ),
           ],
         ),
@@ -150,7 +150,7 @@ class GeneratedReportScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Sleep Quality',
+                      '💤Sleep Quality',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
@@ -179,7 +179,7 @@ class GeneratedReportScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Heart Rate',
+                      '❤️Heart Rate',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
@@ -208,7 +208,7 @@ class GeneratedReportScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Step Count',
+                      '👣Step Count',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
@@ -237,7 +237,7 @@ class GeneratedReportScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Calories Burned',
+                      '🔥Calories Burned',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
@@ -266,7 +266,7 @@ class GeneratedReportScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hydration',
+                      '💦Hydration',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
@@ -295,7 +295,7 @@ class GeneratedReportScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Current medication',
+                      '💊Current medication',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),

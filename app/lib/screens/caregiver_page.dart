@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'wellness_report_screen.dart';
+import 'supplies_shop_screen.dart';
 
 class CaregiverScreen extends StatefulWidget {
   const CaregiverScreen({super.key});
@@ -135,7 +136,54 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 100),
+          const Padding(
+            padding: EdgeInsetsDirectional.only(top: 8.0, start: 4.0, bottom: 0.0),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+              child: Text(
+                'Shop for supplies',
+                style: TextStyle(fontSize: 22, fontFamily: 'Work Sans Semibold'),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 100,
+            width: 130,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+            child: Text(
+                "Easily browse and purchase essential supplies to make caregiving more manageable.",
+                style: TextStyle(fontFamily: 'Work Sans'),
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
+          Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+            height: 45,
+            width: 150,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF8A2BE2),
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(fontSize: 16, fontFamily: 'Work Sans Semibold'),
+              ),
+              onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => SuppliesShopScreen(),
+                ),
+              );
+              },
+              child: const Text('Shop now'),
+            ),
+            ),
+          ),
+          ),
         ],
       ),
     );
