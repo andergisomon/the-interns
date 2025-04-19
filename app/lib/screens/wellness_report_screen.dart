@@ -15,13 +15,6 @@ class ReportBulletpoint {
   static const String calories_burned = "Generate a brief description of the total amount of calories burned by the user. You may refer to the user using a second person pronoun. Provide any number.";
   static const String hydration = "Generate a brief description of how hydrated the user had been. You may refer to the user using a second person pronoun. Provide any reasonable hydration score that the user had.";
   static const String meds_info = "Generate a brief description of the tracked medications the user is on. You may refer to the user using a second person pronoun. Simply describe the information into easily understandable language.\n";
-  static const String meds_info_medication_name = "";
-  static const String meds_info_dosage = "";
-  static const String meds_info_unit = "";
-  static const String meds_info_start_date = "";
-  static const String meds_info_end_date = "";
-  static const String meds_info_frequency = "";
-  static const String meds_info_times_per_day = "";
 }
 final user = FirebaseAuth.instance.currentUser!;
 final HealthStatsService health_stats_service = HealthStatsService();
@@ -80,7 +73,7 @@ class WellnessReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wellness Report'),
+        title: Text('Wellness report'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -142,7 +135,7 @@ class GeneratedReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Healthcare Report'),
+        title: Text('Wellness report'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -161,9 +154,18 @@ class GeneratedReportScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
-                    Text('Average Sleep Quality: 85%'),
-                    SizedBox(height: 4),
-                    Text('Hours of Sleep (Last 7 Days): 7h, 6h, 8h, 7h, 6h, 7h, 8h'),
+                    FutureBuilder<String>(
+                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.sleep_quality),
+                      builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('Loading...');
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return MarkdownBody(data: snapshot.data ?? 'No data');
+                      }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -181,9 +183,18 @@ class GeneratedReportScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
-                    Text('Resting Heart Rate: 72 bpm'),
-                    SizedBox(height: 4),
-                    Text('Average Heart Rate (Last 7 Days): 75 bpm'),
+                    FutureBuilder<String>(
+                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.heart_rate),
+                      builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('Loading...');
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return MarkdownBody(data: snapshot.data ?? 'No data');
+                      }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -201,9 +212,18 @@ class GeneratedReportScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
-                    Text('Total Steps (Last 7 Days): 56,000 steps'),
-                    SizedBox(height: 4),
-                    Text('Daily Average: 8,000 steps'),
+                    FutureBuilder<String>(
+                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.step_count),
+                      builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('Loading...');
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return MarkdownBody(data: snapshot.data ?? 'No data');
+                      }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -221,9 +241,18 @@ class GeneratedReportScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
-                    Text('Total Calories Burned (Last 7 Days): 14,000 kcal'),
-                    SizedBox(height: 4),
-                    Text('Daily Average: 2,000 kcal'),
+                    FutureBuilder<String>(
+                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.calories_burned),
+                      builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('Loading...');
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return MarkdownBody(data: snapshot.data ?? 'No data');
+                      }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -241,9 +270,18 @@ class GeneratedReportScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8),
-                    Text('Average Water Intake (Last 7 Days): 2.5L/day'),
-                    SizedBox(height: 4),
-                    Text('Recommended: 3L/day'),
+                    FutureBuilder<String>(
+                      future: generateReportBulletpoint(_apiKey, ReportBulletpoint.hydration),
+                      builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text('Loading...');
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return MarkdownBody(data: snapshot.data ?? 'No data');
+                      }
+                      },
+                    ),
                   ],
                 ),
               ),
