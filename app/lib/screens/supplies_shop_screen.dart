@@ -39,20 +39,23 @@ class SuppliesShopScreen extends StatelessWidget {
                 );
               },
               child: Card(
-                elevation: 2,
+                elevation: 4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Container(
-                      color: Colors.grey[300],
-                      height: 100, // Adjust height as needed
-                      child: Icon(Icons.image, size: 40, color: Colors.grey),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 2.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Container(
+                        color: Colors.grey[300],
+                        height: 160,
+                        child: Icon(Icons.image, size: 40, color: Colors.grey),
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         product['name']!,
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -60,7 +63,7 @@ class SuppliesShopScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 1.0),
+                      padding: const EdgeInsets.only(top: 4.0),
                       child: Text(
                         product['price']!,
                         style: TextStyle(color: Colors.grey, fontSize: 12),
@@ -98,7 +101,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         title: Text(widget.name),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
