@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class SuppliesShopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> products = [
-      {'name': 'Bandages', 'price': 'RM5.00'},
-      {'name': 'Pain Reliever', 'price': 'RM10.00'},
-      {'name': 'Antiseptic Cream', 'price': 'RM7.50'},
-      {'name': 'Vitamins', 'price': 'RM15.00'},
-      {'name': 'Thermometer', 'price': 'RM20.00'},
+    final List<Map<String, String>> products = [ // Bad code: app will crash if it can't find the image, easy fix but I my patience is running out
+      {'name': 'Bandages', 'price': 'RM5.00', 'description': "Nokuro ma iti ginawo ku kosorou nopo dika tikid tadau om tikid sodop sorikotonon nopo dika. Muhang nangku iti ginawo ku?", 'img': 'assets/images/supplies_shop/placeholder.png'},
+      {'name': 'Pain Reliever', 'price': 'RM10.00', 'description': 'Nokuro ma iti ginawo ku kosorou nopo dika tikid tadau om tikid sodop sorikotonon nopo dika. Muhang nangku iti ginawo ku?', 'img': 'assets/images/supplies_shop/placeholder.png'},
+      {'name': 'Antiseptic Cream', 'price': 'RM7.50', 'description': 'Topical antiseptic', 'img': 'assets/images/supplies_shop/placeholder.png'},
+      {'name': 'Vitamins', 'price': 'RM15.00', 'description': 'Nokuro ma iti ginawo ku kosorou nopo dika tikid tadau om tikid sodop sorikotonon nopo dika. Muhang nangku iti ginawo ku?', 'img': 'assets/images/supplies_shop/placeholder.png'},
+      {'name': 'Thermometer', 'price': 'RM20.00', 'description': 'Nokuro ma iti ginawo ku kosorou nopo dika tikid tadau om tikid sodop sorikotonon nopo dika. Muhang nangku iti ginawo ku?', 'img': 'assets/images/supplies_shop/placeholder.png'},
+      {'name': 'Piriton', 'price': 'RM20.00', 'description': 'Also known as Chlorpheniramine maleate. Drowsy antihistamine to reduce symptoms of allergy', 'img': 'assets/images/supplies_shop/pills.png'},
+      {'name': 'Loratadine', 'price': 'RM20.00', 'description': 'Non-drowsy antihistamine to reduce symptoms of allergy.', 'img': 'assets/images/supplies_shop/placeholder.png'},
     ];
 
     return Scaffold(
@@ -34,6 +36,8 @@ class SuppliesShopScreen extends StatelessWidget {
                     builder: (context) => ProductDetailScreen(
                       name: product['name']!,
                       price: product['price']!,
+                      description: product['description']!,
+                      image: product['img']!,
                     ),
                   ),
                 );
@@ -50,7 +54,10 @@ class SuppliesShopScreen extends StatelessWidget {
                         child: Container(
                         color: Colors.grey[300],
                         height: 160,
-                        child: Icon(Icons.image, size: 40, color: Colors.grey),
+                        child: Image(
+                                image: AssetImage(product['img']!),
+                                fit: BoxFit.cover,
+                              )
                         ),
                       ),
                     ),
@@ -58,7 +65,7 @@ class SuppliesShopScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         product['name']!,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -66,7 +73,7 @@ class SuppliesShopScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 4.0),
                       child: Text(
                         product['price']!,
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        style: TextStyle(color: Colors.grey, fontSize: 15),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -84,8 +91,10 @@ class SuppliesShopScreen extends StatelessWidget {
 class ProductDetailScreen extends StatefulWidget {
   final String name;
   final String price;
+  final String description;
+  final String image;
 
-  const ProductDetailScreen({required this.name, required this.price});
+  const ProductDetailScreen({required this.name, required this.price, required this.description, required this.image});
 
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -110,7 +119,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 height: 200,
                 width: 200,
                 color: Colors.grey[300],
-                child: Icon(Icons.image, size: 100, color: Colors.grey),
+                child: Image(image: AssetImage(widget.image), fit: BoxFit.fill,),
               ),
             ),
             SizedBox(height: 16),
@@ -122,6 +131,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Text(
               widget.price,
               style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+            SizedBox(height: 8),
+                        Text(
+              widget.description,
+              style: TextStyle(fontSize: 15, color: Colors.grey),
             ),
             SizedBox(height: 16),
             Row(

@@ -71,6 +71,7 @@ flutter:
   assets:
     - assets/signin-assets/Android/png@1x/light/android_light_rd_na@1x.png
     - assets/images/
+    - assets/images/supplies_shop/
     - assets/images/caregiver_carousel/
     - assets/images/caregiver_hero.png
     - assets/images/caregiver_hero.svg
