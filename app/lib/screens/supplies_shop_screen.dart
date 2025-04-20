@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class SuppliesShopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> products = [ // Bad code: app will crash if it can't find the image, easy fix but I my patience is running out
-      {'name': 'Bandages', 'price': 'RM5.00', 'description': "Nokuro ma iti ginawo ku kosorou nopo dika tikid tadau om tikid sodop sorikotonon nopo dika. Muhang nangku iti ginawo ku?", 'img': 'assets/images/supplies_shop/placeholder.png'},
-      {'name': 'Pain Reliever', 'price': 'RM10.00', 'description': 'Nokuro ma iti ginawo ku kosorou nopo dika tikid tadau om tikid sodop sorikotonon nopo dika. Muhang nangku iti ginawo ku?', 'img': 'assets/images/supplies_shop/placeholder.png'},
-      {'name': 'Antiseptic Cream', 'price': 'RM7.50', 'description': 'Topical antiseptic', 'img': 'assets/images/supplies_shop/placeholder.png'},
-      {'name': 'Vitamins', 'price': 'RM15.00', 'description': 'Nokuro ma iti ginawo ku kosorou nopo dika tikid tadau om tikid sodop sorikotonon nopo dika. Muhang nangku iti ginawo ku?', 'img': 'assets/images/supplies_shop/placeholder.png'},
-      {'name': 'Thermometer', 'price': 'RM20.00', 'description': 'Nokuro ma iti ginawo ku kosorou nopo dika tikid tadau om tikid sodop sorikotonon nopo dika. Muhang nangku iti ginawo ku?', 'img': 'assets/images/supplies_shop/placeholder.png'},
+      {'name': 'Rusap Noingkat', 'price': 'RM15.00', 'description': "Tradtitional Sabahan lintotobou (*ficus septica*) drink to reduce bloating. Kadazandusun folk remedy.", 'img': 'assets/images/supplies_shop/rusap_noingkat.jpeg'},
+      {'name': 'RAGANG Baby Bath', 'price': 'RM10.00', 'description': 'Tradtitional Sabahan herbal bath infusion for bathing babies. Used to reduce symptoms of jaundice. Kadazandusun folk remedy. Contains Tawawo, Golinggang, and Tulod Ulod leaf extract.', 'img': 'assets/images/supplies_shop/ragang.jpeg'},
+      {'name': 'Rusap Rombisan', 'price': 'RM7.50', 'description': 'Traditional Sabahan herbal Rombisan tea. Contains rombisan (*bawang dayak*).', 'img': 'assets/images/supplies_shop/rusap_rombisan.jpeg'},
+      {'name': 'Rusap Poponsu', 'price': 'RM25.00', 'description': 'Tradtitional Sabahan herbal bath infusion for pregnant women. Used to reduce bloating. Kadazandusun folk remedy. Contains Tawawo, Kaffir lime, Senduduk leaf extract, ginger, red lemongrass, and Eucalyptus.', 'img': 'assets/images/supplies_shop/rusap_poponsu.jpg'},
+      {'name': 'Paracetamol', 'price': 'RM20.00', 'description': 'Generic paracetamol. Commonly used as a painkiller and to reduce symptoms of fever.', 'img': 'assets/images/supplies_shop/pills.png'},
       {'name': 'Piriton', 'price': 'RM20.00', 'description': 'Also known as Chlorpheniramine maleate. Drowsy antihistamine to reduce symptoms of allergy', 'img': 'assets/images/supplies_shop/pills.png'},
-      {'name': 'Loratadine', 'price': 'RM20.00', 'description': 'Non-drowsy antihistamine to reduce symptoms of allergy.', 'img': 'assets/images/supplies_shop/placeholder.png'},
+      {'name': 'Loratadine', 'price': 'RM20.00', 'description': 'Non-drowsy antihistamine to reduce symptoms of allergy.', 'img': 'assets/images/supplies_shop/pills.png'},
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Supplies shop'),
+        title: Text('🏪 Supplies shop'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -133,9 +134,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
             SizedBox(height: 8),
-                        Text(
-              widget.description,
-              style: TextStyle(fontSize: 15, color: Colors.grey),
+                        MarkdownBody(
+              data: widget.description,
+              styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)), //(fontSize: 15, color: Colors.grey),
             ),
             SizedBox(height: 16),
             Row(

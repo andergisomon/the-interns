@@ -147,7 +147,7 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
             ),
           ),
           const SizedBox(
-            height: 100,
+            height: 80,
             width: 130,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
