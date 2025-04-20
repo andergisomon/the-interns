@@ -117,10 +117,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           children: [
             Center(
               child: Container(
-                height: 200,
-                width: 200,
+                height: 250,
                 color: Colors.grey[300],
-                child: Image(image: AssetImage(widget.image), fit: BoxFit.fill,),
+                child: Image(image: AssetImage(widget.image), fit: BoxFit.contain,),
               ),
             ),
             SizedBox(height: 16),
