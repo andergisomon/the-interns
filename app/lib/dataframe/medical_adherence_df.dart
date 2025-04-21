@@ -7,6 +7,7 @@ class MedicalAdherence {
   final DateTime endDate;
   final String frequency;
   final int timesPerDay;
+  final List<Map<String, int>> reminderTimes;
 
   MedicalAdherence({
     required this.userId,
@@ -17,6 +18,7 @@ class MedicalAdherence {
     required this.endDate,
     required this.frequency,
     required this.timesPerDay,
+    required this.reminderTimes,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,6 +31,7 @@ class MedicalAdherence {
       'endDate': endDate.toIso8601String(),
       'frequency': frequency,
       'timesPerDay': timesPerDay,
+      'reminderTimes': reminderTimes,
     };
   }
 
@@ -42,6 +45,14 @@ class MedicalAdherence {
       endDate: DateTime.parse(map['endDate']),
       frequency: map['frequency'],
       timesPerDay: map['timesPerDay'],
+      reminderTimes: List<Map<String, int>>.from(
+        (map['reminderTimes'] ?? []).map((e) => {'hour': e['hour'], 'minute': e['minute']}),
+      ),
     );
+  }
+
+  bool isMedicationActive() {
+    final now = DateTime.now();
+    return now.isAfter(startDate) && now.isBefore(endDate);
   }
 }

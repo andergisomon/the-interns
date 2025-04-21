@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lebui_modsu/screens/first_time_login.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lebui_modsu/services/notifications.dart';
 import 'package:logging/logging.dart';
 import 'screens/startup_page.dart';
 import 'screens/login_page.dart';
@@ -11,12 +13,24 @@ import 'screens/meds_tracker.dart';
 import 'screens/caregiver_page.dart';
 import 'screens/profile_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   _setupLogging();
+
+  // Initialize flutter_local_notifications
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+  final InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  NotificationsService().initNotification();
+
+
   runApp(MyApp());
   await dotenv.load(fileName: ".env");
 }
@@ -36,6 +50,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My App',
+        localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English
+        Locale('my', ''), // Malay
+        Locale('zh', ''), // Mandarin Chinese
+      ],
       theme: ThemeData(
         textTheme: const TextTheme(
           labelSmall: TextStyle(fontFamily: 'Work Sans Medium'),
