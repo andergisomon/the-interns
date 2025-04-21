@@ -46,13 +46,13 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.title),
+        // title: Text(AppLocalizations.of(context)!.title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(AppLocalizations.of(context)!.greetings),
+            // Text(AppLocalizations.of(context)!.greetings),
             ElevatedButton(
               onPressed: () => onChangeLanguage(const Locale('zh', '')),
               child: const Text('Change to Mandarin Chinese'),
