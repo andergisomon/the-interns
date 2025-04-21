@@ -16,7 +16,20 @@ class SuppliesShopScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('🏪 Supplies shop'),
+        title: Text('🏪 Shop'),
+        actions: [
+          TextButton.icon(
+            onPressed: () {
+              Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => CheckoutCartScreen(),
+              ),
+              );
+            },
+            icon: const Icon(Icons.shopping_cart, color: Color.fromARGB(255, 0, 0, 0)),
+            label: const Text('Checkout', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
