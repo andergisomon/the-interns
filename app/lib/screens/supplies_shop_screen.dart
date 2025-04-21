@@ -1,6 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+class CartItem {
+  final String name;
+  final String image;
+  final double unitPrice;
+  int quantity;
+
+  CartItem({
+    required this.name,
+    required this.image,
+    required this.unitPrice,
+    required this.quantity,
+  });
+
+  double get totalPrice => unitPrice * quantity;
+}
+
+class Cart {
+  static final List<CartItem> _items = [];
+
+  static List<CartItem> get items => _items;
+
+  static void addItem(CartItem item) {
+    // if same product exists, bump quantity
+    final existing = _items.where((i) => i.name == item.name).toList();
+    if (existing.isNotEmpty) {
+      existing.first.quantity += item.quantity;
+    } else {
+      _items.add(item);
+    }
+  }
+
+  static double get total {
+    return _items.fold(0.0, (sum, item) => sum + item.totalPrice);
+  }
+
+  static void clear() => _items.clear();
+}
+
 class SuppliesShopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -183,6 +221,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   // Add to cart logic here
+                  Cart.addItem(CartItem(name: widget.name,
+                                        image: widget.image,
+                                        unitPrice: double.parse(widget.price.substring(2)),
+                                        quantity: quantity)
+                                      );
                   Navigator.of(context).pop();
                 },
                 child: Text('Add to Cart'),
@@ -190,6 +233,116 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CheckoutCartScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final items = Cart.items;
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Your Cart')),
+      body: Column(
+        children: [
+          Expanded(
+            child: items.isEmpty
+              ? Center(child: Text('Your cart is empty.'))
+              : ListView.separated(
+                  padding: EdgeInsets.all(8),
+                  itemCount: items.length + 1, // extra for total row
+                  separatorBuilder: (_, __) => Divider(),
+                  itemBuilder: (context, index) {
+                    if (index < items.length) {
+                      final item = items[index];
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: Image.asset(
+                              item.image,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(child: Text(item.name)),
+                          SizedBox(width: 12),
+                          Text('x${item.quantity}'),
+                          SizedBox(width: 12),
+                          Text('RM${item.unitPrice.toStringAsFixed(2)}'),
+                          SizedBox(width: 12),
+                          Text('RM${item.totalPrice.toStringAsFixed(2)}'),
+                        ],
+                      );
+                    } else {
+                      // total row
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            Spacer(flex: 4),
+                            Text(
+                              'Total:',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              'RM${Cart.total.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton(
+                onPressed: items.isEmpty
+                    ? null
+                    : () {
+                        // TODO: trigger your checkout flow
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: Text('Thank you!'),
+                            content:
+                                Text('Your order totaling RM${Cart.total.toStringAsFixed(2)} has been placed.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Cart.clear();
+                                  Navigator.of(context)
+                                    ..pop()
+                                    ..pop(); // go back out of cart
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                child: Text('Checkout now'),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
