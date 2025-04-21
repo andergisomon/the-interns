@@ -5,7 +5,11 @@ import 'meds_tracker.dart'; // Correct import
 import 'caregiver_page.dart'; // Correct import
 import 'profile_page.dart'; // Correct import
 import '../navigation_panel.dart'; // Import the NavigationPanel
+<<<<<<< HEAD
 
+=======
+// import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences; Not needed anymore
+>>>>>>> 06e50f0ee807197cba99c636a5f370b87cef444c
 
 final AuthService _authService = AuthService();
 
@@ -84,6 +88,17 @@ class HomeScreen extends StatelessWidget {
     }
   }
 
+  String _getPathToSplash() { // yes i know i should just make a method that returns both but this works doesnt it
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'assets/images/home_morning.jpg';
+    } else if (hour < 18) {
+      return 'assets/images/home_afternoon.jpg';
+    } else {
+      return 'assets/images/home_evening_2.jpg';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,12 +110,12 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-            height: 230,
-            width: 300,
+            height: 225,
             child: Image(
-              image: AssetImage('assets/images/home_evening.jpg'),
+              image: AssetImage(_getPathToSplash()),
             )
               ),
+              SizedBox(height: 12.0,),
               Text(
                 '${_getGreeting()}, $userNickname!',
                 style: Theme.of(context).textTheme.headlineSmall,

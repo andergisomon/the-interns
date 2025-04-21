@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'wellness_report_screen.dart';
+import 'supplies_shop_screen.dart';
 
 class CaregiverScreen extends StatefulWidget {
   const CaregiverScreen({super.key});
@@ -58,7 +59,7 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
               constraints: const BoxConstraints(maxHeight: 450),
               child: CarouselView(
                 onTap: (int index) {
-                  if (index == 4) {
+                  if (index == 1) { // Second card is wellness report
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -75,7 +76,7 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
                     label: image.title,
                     description: image.subtitle,
                     imageInfo: image,
-                    onTap: image == ImageInfo.image4 // Check if it's the last card
+                    onTap: image == ImageInfo.image1 // Check if it's the second card // Check if it's the last card
                         ? () {
                             print("Navigating to WellnessReportScreen");
                             
@@ -92,50 +93,59 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
               child: Text(
-                'New parent or about to be?',
+                'Shop for supplies',
                 style: TextStyle(fontSize: 22, fontFamily: 'Work Sans Semibold'),
               ),
             ),
           ),
+          SizedBox(height: 8.0,),
           const SizedBox(
-            height: 230,
-            width: 300,
-            child: Image(
-              image: AssetImage('assets/images/parent.png'),
+              height: 200,
+              width: 300,
+              child: Image(
+                image: AssetImage('assets/images/shop_splash.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
           const SizedBox(
-            height: 100,
+            height: 90,
             width: 130,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-              child: Text(
-                "Nobody gets it right the first time. Transitioning into the life of a parent can be challenging, many things aren't obvious at first glance.",
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+            child: Text(
+                "Easily browse and purchase essential supplies to make caregiving more manageable.",
                 style: TextStyle(fontFamily: 'Work Sans'),
                 textAlign: TextAlign.left,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                height: 45,
-                width: 150,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF8A2BE2),
-                    foregroundColor: Colors.white,
-                    textStyle: const TextStyle(fontSize: 16, fontFamily: 'Work Sans Semibold'),
-                  ),
-                  onPressed: () {},
-                  child: const Text('Get started'),
-                ),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+            height: 45,
+            width: 150,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF8A2BE2),
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(fontSize: 16, fontFamily: 'Work Sans Semibold'),
               ),
+              onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => SuppliesShopScreen(),
+                ),
+              );
+              },
+              child: const Text('Shop now'),
+            ),
             ),
           ),
-          const SizedBox(height: 100),
+          ),
+          SizedBox(height: 48.0)
         ],
       ),
     );
@@ -209,10 +219,11 @@ return InkWell(
 
 enum ImageInfo {
   image0('Daily routines', 'Set up specific routines and checklists to be done regularly. Never forget anything again.', 'daily_routine.png'),
-  image1('Consumables', 'Define supplies that may run out, track how much you have left and set reminders to restock.', 'consumables.png'),
+  image1('Wellness report', 'Privately analyze your data and generate a brief report of how things are going', 'wellness.png'),
+ // image1('Consumables', 'Define supplies that may run out, track how much you have left and set reminders to restock.', 'consumables.png'),
   image2('Reach out', 'Feel seen. Guide others. Find a community of people to relate to and make your days feel a little bit lighter.', 'reach_out.png'),
-  image3('Need to vent?', "Sometimes, all we need is to feel that we're being heard. A shoulder that doesn't judge can help us weather bad times.", 'vent.png'),
-  image4('Wellness report', 'Privately analyze your data and generate a brief report of how things are going', 'wellness.png');
+  image3('Need to vent?', "Sometimes, all we need is to feel that we're being heard. A shoulder that doesn't judge can help us weather bad times.", 'vent.png');
+ // image4('Wellness report', 'Privately analyze your data and generate a brief report of how things are going', 'wellness.png');
 
   const ImageInfo(this.title, this.subtitle, this.url);
   final String title;
