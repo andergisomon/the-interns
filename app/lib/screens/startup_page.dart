@@ -1,6 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en', '');
+
+  void _changeLanguage(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      locale: _locale,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        AppLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English
+        Locale('zh', ''), // Mandarin Chinese
+      ],
+      home: MyHomePage(onChangeLanguage: _changeLanguage),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  final Function(Locale) onChangeLanguage;
+
+  const MyHomePage({required this.onChangeLanguage});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(AppLocalizations.of(context)!.greetings),
+            ElevatedButton(
+              onPressed: () => onChangeLanguage(const Locale('zh', '')),
+              child: const Text('Change to Mandarin Chinese'),
+            ),
+            ElevatedButton(
+              onPressed: () => onChangeLanguage(const Locale('en', '')),
+              child: const Text('Change to English'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class StartupPage extends StatefulWidget {
   const StartupPage({super.key});
