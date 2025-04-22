@@ -14,13 +14,17 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.title),
+        // title: Text(AppLocalizations.of(context)!.title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+<<<<<<< HEAD
             Text(localizations!.greetings),
+=======
+            // Text(AppLocalizations.of(context)!.greetings),
+>>>>>>> e9039281b89ac1a45faadd47484394a3aa946e89
             ElevatedButton(
               onPressed: () => onChangeLanguage(const Locale('zh', '')),
               child: const Text('Change to Mandarin Chinese'),

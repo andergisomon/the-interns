@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "@_STARTUP": {},
 
     "@_HOME": {},
@@ -119,3 +120,11 @@
     "miscConfirm": "Are you sure?",
     "miscBack": "Back"
 }
+=======
+    "welcomingMessage": "Welcome 😊",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "ogin": "Login"
+}
+>>>>>>> e9039281b89ac1a45faadd47484394a3aa946e89

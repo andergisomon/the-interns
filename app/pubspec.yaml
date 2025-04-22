@@ -98,8 +98,11 @@ flutter:
     - assets/images/wellness_report/wellness_generate.png
     - assets/images/home_evening.jpg
     - .env
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> e9039281b89ac1a45faadd47484394a3aa946e89
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
