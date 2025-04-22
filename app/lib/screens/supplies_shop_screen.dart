@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuppliesShopScreen extends StatelessWidget {
   @override
@@ -172,7 +173,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   // Add to cart logic here
                   Navigator.of(context).pop();
                 },
-                child: Text('Add to Cart'),
+                child: Text(AppLocalizations.of(context)!.suppliesShopAddToCart),
               ),
             ),
           ],

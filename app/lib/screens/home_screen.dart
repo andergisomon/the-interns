@@ -5,11 +5,7 @@ import 'meds_tracker.dart'; // Correct import
 import 'caregiver_page.dart'; // Correct import
 import 'profile_page.dart'; // Correct import
 import '../navigation_panel.dart'; // Import the NavigationPanel
-<<<<<<< HEAD
 
-=======
-// import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences; Not needed anymore
->>>>>>> 06e50f0ee807197cba99c636a5f370b87cef444c
 
 final AuthService _authService = AuthService();
 

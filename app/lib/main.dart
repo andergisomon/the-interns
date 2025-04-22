@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:lebui_modsu/screens/first_time_login.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lebui_modsu/services/notifications.dart';
 import 'package:logging/logging.dart';
 import 'screens/startup_page.dart';
 import 'screens/login_page.dart';
 import 'screens/signup_page.dart';
+import 'screens/first_time_login.dart'; // Ensure this file exists and contains the class FirstTimeLoginPage
 import 'screens/home_screen.dart' as home;
 import 'screens/chatbot_screen.dart';
 import 'screens/meds_tracker.dart';
@@ -33,6 +33,7 @@ void main() async {
 
   runApp(MyApp());
   await dotenv.load(fileName: ".env");
+
 }
 
 void _setupLogging() {
@@ -49,16 +50,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
-        localizationsDelegates: [
+      title: 'Suaunaau',
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale('en', ''), // English
-        Locale('my', ''), // Malay
-        Locale('zh', ''), // Mandarin Chinese
       ],
       theme: ThemeData(
         textTheme: const TextTheme(
@@ -75,9 +75,15 @@ class MyApp extends StatelessWidget {
           titleSmall: TextStyle(fontFamily: 'Work Sans Medium'),
         ),
       ),
-      initialRoute: '/', // originally just '/',
+      initialRoute: '/', // Default route
       routes: {
-        '/': (context) => const StartupPage(),
+        '/': (context) {
+          final localizations = AppLocalizations.of(context);
+          if (localizations == null) {
+            return const Center(child: Text('Localization not loaded'));
+          }
+          return const StartupPage();
+        },
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(),
         '/firstForm': (context) => const FirstTimeLoginPage(),

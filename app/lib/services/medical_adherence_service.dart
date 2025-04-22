@@ -56,10 +56,6 @@ class MedicalAdherenceService {
     }
     return adherenceList;
   }
-<<<<<<< HEAD
-}
-=======
-
   Future<MedicalAdherence> getMedicalAdherence_demo(String userId, int index) async {
     MedicalAdherence first_medication = (await getMedicalAdherence(userId))[index];
     return first_medication;
@@ -69,6 +65,4 @@ class MedicalAdherenceService {
     List<MedicalAdherence> list = await getMedicalAdherence(userId);
     return list.length;
   }
-
 }
->>>>>>> 06e50f0ee807197cba99c636a5f370b87cef444c
