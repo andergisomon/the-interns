@@ -7,8 +7,7 @@
     <application
         android:label="Suaunaau"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon"
-        android:debuggable="true">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

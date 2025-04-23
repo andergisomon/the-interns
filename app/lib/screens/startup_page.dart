@@ -2,43 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-class MyHomePage extends StatelessWidget {
-  final Function(Locale) onChangeLanguage;
-  
-  const MyHomePage({required this.onChangeLanguage});
-
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        // title: Text(AppLocalizations.of(context)!.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-<<<<<<< HEAD
-            Text(localizations!.greetings),
-=======
-            // Text(AppLocalizations.of(context)!.greetings),
->>>>>>> e9039281b89ac1a45faadd47484394a3aa946e89
-            ElevatedButton(
-              onPressed: () => onChangeLanguage(const Locale('zh', '')),
-              child: const Text('Change to Mandarin Chinese'),
-            ),
-            ElevatedButton(
-              onPressed: () => onChangeLanguage(const Locale('en', '')),
-              child: const Text('Change to English'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'package:lebui_modsu/main.dart';
 
 class StartupPage extends StatefulWidget {
   const StartupPage({super.key});
@@ -52,6 +16,8 @@ class _StartupPageState extends State<StartupPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool _rememberMe = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Locale _selectedLocale = const Locale('en', ''); // Default locale
 
   Future<void> _signInWithEmailAndPassword() async {
     try {
@@ -96,25 +62,35 @@ class _StartupPageState extends State<StartupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: null // const Text('Login'),
+        title: null, // const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(child:  Text(AppLocalizations.of(context)!.homeWelcomeMessage,
-                                style: TextStyle(fontFamily: 'Work Sans Black', color: Colors.black, fontSize: 38),
-                                textAlign: TextAlign.center,
-                          )
-                        ),
+            SizedBox(
+              child: Text(
+                AppLocalizations.of(context)!.homeWelcomeMessage,
+                style: const TextStyle(
+                  fontFamily: 'Work Sans Black',
+                  color: Colors.black,
+                  fontSize: 38,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
             TextFormField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.loginEmailPlaceholder,
+              ),
             ),
             TextFormField(
               controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.loginPasswordPlaceholder,
+              ),
               obscureText: true,
             ),
             Row(
@@ -127,31 +103,31 @@ class _StartupPageState extends State<StartupPage> {
                     });
                   },
                 ),
-                const Text('Remember me'),
+                Text(AppLocalizations.of(context)!.loginRememberMe),
               ],
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _signInWithEmailAndPassword,
-              child: const Text('Login'),
+              child: Text(AppLocalizations.of(context)!.loginButton),
             ),
             const SizedBox(height: 10),
             TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/forgot_password');
               },
-              child: const Text('Forgot password?'),
+              child: Text(AppLocalizations.of(context)!.loginForgotPassword),
             ),
             const SizedBox(height: 20),
-            const Text('New user?'),
+            Text(AppLocalizations.of(context)!.loginNewUser),
             TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/signup');
               },
-              child: const Text('Signup Now'),
+              child: Text(AppLocalizations.of(context)!.loginSignupNow),
             ),
             const SizedBox(height: 20),
-            const Text('May also signup with'),
+            Text(AppLocalizations.of(context)!.loginSignupWith),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
@@ -160,11 +136,50 @@ class _StartupPageState extends State<StartupPage> {
                   Navigator.pushReplacementNamed(context, '/firstForm');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Failed to sign in with Google')),
+                    SnackBar(
+                      content: Text(AppLocalizations.of(context)!.loginGoogleSignInError),
+                    ),
                   );
                 }
               },
-              child: Image.asset('assets/signin-assets/Android/png@1x/light/android_light_rd_na@1x.png', height: 50.0), // Ensure you have the Google sign-in button asset
+              child: Image.asset(
+                'assets/signin-assets/Android/png@1x/light/android_light_rd_na@1x.png',
+                height: 50.0,
+              ), // Ensure you have the Google sign-in button asset
+            ),
+            const SizedBox(height: 20),
+            // Language Dropdown
+            DropdownButton<Locale>(
+              value: _selectedLocale,
+              icon: const Icon(Icons.language),
+              onChanged: (Locale? newLocale) {
+                if (newLocale != null) {
+                  setState(() {
+                    _selectedLocale = newLocale;
+                  });
+                  
+                  // Update the app's locale
+                  MyApp.setLocale(context, newLocale);
+                }
+              },
+              items: const [
+                DropdownMenuItem(
+                  value: Locale('en', ''),
+                  child: Text('English'),
+                ),
+                DropdownMenuItem(
+                  value: Locale('zh', ''),
+                  child: Text('中文'),
+                ),
+                DropdownMenuItem(
+                  value: Locale('my', ''),
+                  child: Text('Malay'),
+                ),
+                DropdownMenuItem(
+                  value: Locale('th', ''),
+                  child: Text('ภาษาไทย'),
+                ),
+              ],
             ),
           ],
         ),

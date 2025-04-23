@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth.dart';
 import '../services/first_time_form_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
@@ -21,11 +22,12 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final AuthService authService = AuthService();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Signup Page'),
+        title:Text(AppLocalizations.of(context)!.signupTitle),
       ),
       body: Center(
         child: ElevatedButton(
@@ -36,7 +38,7 @@ class SignupPage extends StatelessWidget {
                 _checkFirstTimeLogin(context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Failed to sign up with Google')),
+                 SnackBar(content: Text(AppLocalizations.of(context)!.signupFailed)),
                 );
               }
             } catch (e) {
@@ -45,7 +47,7 @@ class SignupPage extends StatelessWidget {
               );
             }
           },
-          child: const Text('Sign up with Google'),
+          child: Text(AppLocalizations.of(context)!.signupButton),
         ),
       ),
     );

@@ -44,12 +44,32 @@ void _setupLogging() {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = navigatorKey.currentState?.context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: MyApp.navigatorKey,
       title: 'Suaunaau',
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -59,7 +79,11 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [
         Locale('en', ''), // English
+        Locale('zh', ''), // Mandarin
+        Locale('my', ''), // Malay
+        Locale('th', ''), // Thai
       ],
+      locale: _locale,
       theme: ThemeData(
         textTheme: const TextTheme(
           labelSmall: TextStyle(fontFamily: 'Work Sans Medium'),
@@ -78,8 +102,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Default route
       routes: {
         '/': (context) {
-          final localizations = AppLocalizations.of(context);
-          if (localizations == null) {
+         
+          if (AppLocalizations.of(context) == null) {
             return const Center(child: Text('Localization not loaded'));
           }
           return const StartupPage();

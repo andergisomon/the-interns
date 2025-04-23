@@ -1,36 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../main.dart'; // Import MyApp to call setLocale
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String _selectedLanguage = Localizations.localeOf(context).languageCode;
+
     return Scaffold(
-      //appBar: AppBar(
-        //centerTitle: true,
-        //backgroundColor: const Color.fromARGB(255, 214, 109, 10),
-      //),
+      appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: DropdownButton<String>(
+              value: _selectedLanguage,
+              underline: const SizedBox(), // Remove underline
+             icon: const Icon(Icons.language), // Ensure the language icon is displayed
+              dropdownColor: Colors.white,
+              items: const [
+                DropdownMenuItem(value: 'en', child: Text('English')),
+                DropdownMenuItem(value: 'zh', child: Text('中文')),
+                DropdownMenuItem(value: 'my', child: Text('Malay')),
+                DropdownMenuItem(value: 'th', child: Text('ไทย')),
+              ],
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  MyApp.setLocale(context, Locale(newValue));
+                }
+              },
+            ),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             // Profile Picture
-            SizedBox(height: 30),
-            CircleAvatar(
+            const SizedBox(height: 30),
+            const CircleAvatar(
               radius: 60,
               backgroundImage: AssetImage("assets/images/harold.jpeg"), // Placeholder image
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               "Harold", // Sample name
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               "johndoe@example.com", // Sample email
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // User Info Section
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               elevation: 4,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -38,23 +62,23 @@ class ProfilePage extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    leading: Icon(Icons.phone, color: Colors.deepPurple),
-                    title: Text("+123 456 7890"),
+                    leading: const Icon(Icons.phone, color: Colors.deepPurple),
+                    title: const Text("+123 456 7890"),
                   ),
-                  Divider(),
+                  const Divider(),
                   ListTile(
-                    leading: Icon(Icons.location_on, color: Colors.deepPurple),
-                    title: Text("New York, USA"),
+                    leading: const Icon(Icons.location_on, color: Colors.deepPurple),
+                    title: const Text("New York, USA"),
                   ),
-                  Divider(),
+                  const Divider(),
                   ListTile(
-                    leading: Icon(Icons.cake, color: Colors.deepPurple),
-                    title: Text("January 1, 2000"),
+                    leading: const Icon(Icons.cake, color: Colors.deepPurple),
+                    title: const Text("January 1, 2000"),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Buttons (For Show Only)
             Padding(
@@ -63,30 +87,30 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.edit),
-                    label: Text("Edit Profile",),
+                    icon: const Icon(Icons.edit),
+                    label: Text(AppLocalizations.of(context)!.profileEdit),
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50),
+                      minimumSize: const Size(double.infinity, 50),
                       backgroundColor: const Color.fromARGB(255, 187, 209, 220),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.settings),
-                    label: Text("Settings"),
+                    icon: const Icon(Icons.settings),
+                    label: Text(AppLocalizations.of(context)!.profileSettings),
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50),
+                      minimumSize: const Size(double.infinity, 50),
                       backgroundColor: const Color.fromARGB(255, 187, 209, 220),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.logout),
-                    label: Text("Log Out"),
+                    icon: const Icon(Icons.logout),
+                    label: Text(AppLocalizations.of(context)!.profileLogout),
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50),
+                      minimumSize: const Size(double.infinity, 50),
                       backgroundColor: const Color.fromARGB(255, 187, 209, 220),
                     ),
                   ),

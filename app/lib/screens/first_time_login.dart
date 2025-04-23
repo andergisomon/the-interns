@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import '../services/first_time_form_service.dart';
 import '../dataframe/first_time_form_df.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FirstTimeLoginPage extends StatefulWidget {
   const FirstTimeLoginPage({super.key});
@@ -46,7 +47,7 @@ class FirstTimeLoginPageState extends State<FirstTimeLoginPage> {
       await _service.saveFirstTimeLogin(firstTimeLogin);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('First-time login data saved')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.firstTimeLoginDataSaved)),
       );
       Navigator.pushReplacementNamed(context, '/home');
     }
@@ -87,7 +88,7 @@ class FirstTimeLoginPageState extends State<FirstTimeLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('First-Time Login'),
+        title:  Text(AppLocalizations.of(context)!.firstTimeLoginTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -97,17 +98,17 @@ class FirstTimeLoginPageState extends State<FirstTimeLoginPage> {
             children: [
               TextFormField(
                 controller: _nicknameController,
-                decoration: const InputDecoration(labelText: 'Nickname'),
+                decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.firstTimeLoginNickname),
               ),
               TextFormField(
                 controller: _dateOfBirthController,
-                decoration: const InputDecoration(labelText: 'Date of Birth (YYYY-MM-DD)'),
+                decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.firstTimeLoginDateOfBirth),
                 onTap: () => _selectDate(context),
               ),
               DropdownButtonFormField<String>(
                 value: _selectedGender,
-                decoration: const InputDecoration(labelText: 'Gender'),
-                items: ['Male', 'Female', 'Other'].map((String value) {
+                decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.firstTimeLoginGender),
+                items: [AppLocalizations.of(context)!.firstTimeLoginGenderItem1 , AppLocalizations.of(context)!.firstTimeLoginGenderItem2 , AppLocalizations.of(context)!.firstTimeLoginGenderItem3 ].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -121,24 +122,24 @@ class FirstTimeLoginPageState extends State<FirstTimeLoginPage> {
               ),
               TextFormField(
                 controller: _preExistingConditionsController,
-                decoration: const InputDecoration(labelText: 'Pre-existing Conditions'),
+                decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.firstTimeLoginPreExistingConditions),
               ),
               TextFormField(
                 controller: _regularMedicationController,
-                decoration: const InputDecoration(labelText: 'Regular Medication'),
+                decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.firstTimeLoginRegularMedication),
               ),
               TextFormField(
                 controller: _disabilityController,
-                decoration: const InputDecoration(labelText: 'Disability'),
+                decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.firstTimeLoginDisability),
               ),
               TextFormField(
                 controller: _heightController,
-                decoration: const InputDecoration(labelText: 'Height (cm)'),
+                decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.firstTimeLoginHeight),
                 keyboardType: TextInputType.number,
               ),
               TextFormField(
                 controller: _weightController,
-                decoration: const InputDecoration(labelText: 'Weight (kg)'),
+                decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.firstTimeLoginWeight),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),
@@ -148,7 +149,7 @@ class FirstTimeLoginPageState extends State<FirstTimeLoginPage> {
                     _saveFirstTimeLogin();
                   }
                 },
-                child: const Text('Submit'),
+                child:  Text(AppLocalizations.of(context)!.firstTimeLoginSubmit),
               ),
             ],
           ),

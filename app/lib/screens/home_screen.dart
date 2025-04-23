@@ -5,11 +5,7 @@ import 'meds_tracker.dart'; // Correct import
 import 'caregiver_page.dart'; // Correct import
 import 'profile_page.dart'; // Correct import
 import '../navigation_panel.dart'; // Import the NavigationPanel
-<<<<<<< HEAD
-
-=======
-// import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences; Not needed anymore
->>>>>>> e9039281b89ac1a45faadd47484394a3aa946e89
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final AuthService _authService = AuthService();
 
@@ -29,14 +25,13 @@ class HomePageState extends State<HomePage> {
     ProfilePage(), // Correct method
   ];
 
-  static final List<String> _titles = <String>[
-    'Home Page',
-    'Medical Tracker',
-    'Caregiver',
-    'Chatbot',
-    'Profile', // Add title for Chatbot
+  List<String> get titles => <String>[
+    AppLocalizations.of(context)!.navigationTitle1,
+    AppLocalizations.of(context)!.navigationTitle2,
+    AppLocalizations.of(context)!.navigationTitle3,
+    AppLocalizations.of(context)!.navigationTitle4,
+    AppLocalizations.of(context)!.navigationTitle5,
   ];
-
   int _selectedIndex = 0; // Add selectedIndex to HomePageState
 
   void _onItemTapped(int index) {
@@ -49,7 +44,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_selectedIndex]), // Update the title dynamically
+        title: Text(titles[_selectedIndex]), // Update the title dynamically
         centerTitle: true,
         actions: [
           IconButton(
@@ -77,14 +72,14 @@ class HomeScreen extends StatelessWidget {
 
   const HomeScreen({super.key, required this.userNickname});
 
-  String _getGreeting() {
+  String _getGreeting(BuildContext context) {
     final hour = DateTime.now().hour;
     if (hour < 12) {
-      return 'Good Morning';
+      return AppLocalizations.of(context)!.greetingsItem1;
     } else if (hour < 18) {
-      return 'Good Afternoon';
+      return AppLocalizations.of(context)!.greetingsItem2;
     } else {
-      return 'Good Evening';
+      return AppLocalizations.of(context)!.greetingsItem3;
     }
   }
 
@@ -117,7 +112,7 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 12.0,),
               Text(
-                '${_getGreeting()}, $userNickname!',
+                '${_getGreeting(context)}, $userNickname!',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 16),
@@ -132,23 +127,23 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Today's stats🎯",
+                        AppLocalizations.of(context)!.homeStatsTitle,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text('Steps🏃: 5,432'),
-                          Text('Calories burned🔥: 320'),
+                        children: [
+                          Text(AppLocalizations.of(context)!.homeSteps + '5,432'),
+                          Text(AppLocalizations.of(context)!.homeCaloriesBurned + '320'),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text('Sleep: 7h 30m'),
-                          Text('Sleep quality: Great'),
+                        children: [
+                          Text(AppLocalizations.of(context)!.homeSleep + '7h 30m'),
+                          Text(AppLocalizations.of(context)!.homeSleepQuality + ' Great'),
                         ],
                       ),
                     ],
@@ -157,7 +152,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Quick Actions',
+                AppLocalizations.of(context)!.homeQuickActions,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 8),
@@ -167,7 +162,7 @@ class HomeScreen extends StatelessWidget {
                   _buildQuickAction(
                     context,
                     icon: Icons.local_hospital,
-                    label: 'Doctor',
+                    label: AppLocalizations.of(context)!.homeDoctor,
                     onTap: () {
                       // Navigate to doctor appointment page
                     },
@@ -175,7 +170,7 @@ class HomeScreen extends StatelessWidget {
                   _buildQuickAction(
                     context,
                     icon: Icons.medication,
-                    label: 'Medications',
+                    label: AppLocalizations.of(context)!.homeMedications,
                     onTap: () {
                       // Navigate to medications page
                     },
@@ -183,7 +178,7 @@ class HomeScreen extends StatelessWidget {
                   _buildQuickAction(
                     context,
                     icon: Icons.fitness_center,
-                    label: 'Fitness',
+                    label: AppLocalizations.of(context)!.homeFitness,
                     onTap: () {
                       // Navigate to fitness tracker
                     },
@@ -199,7 +194,7 @@ class HomeScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    '"Take care of your body. It’s the only place you have to live." - Jim Rohn',
+                    AppLocalizations.of(context)!.homeQuote,
                     style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),

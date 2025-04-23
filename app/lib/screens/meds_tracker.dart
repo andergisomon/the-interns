@@ -9,6 +9,7 @@ import '../services/notifications.dart'; // Import NotificationsService
 import '../dataframe/medical_adherence_df.dart';
 
 import 'package:logger/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final Logger _logger = Logger();
 
@@ -56,7 +57,7 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
     if (_reminderTimes.length >= _selectedTimesPerDay) {
       _logger.w('Maximum number of reminder times reached: $_selectedTimesPerDay');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('You have already selected the maximum number of times.')),
+       SnackBar(content: Text(AppLocalizations.of(context)!.medsTrackerMaximumReminder)),
       );
       return;
     }
@@ -113,7 +114,7 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Medical adherence data saved and notifications scheduled')),
+         SnackBar(content: Text(AppLocalizations.of(context)!.medsTrackerSaveSuccess)),
         );
 
         _loadAdherence();
@@ -130,7 +131,7 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
       } catch (e) {
         _logger.e('Error saving adherence: $e'); // Log error
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to save data. Please try again.')),
+         SnackBar(content: Text(AppLocalizations.of(context)!.medsTrackerSaveError)),
         );
       } finally {
         setState(() {
@@ -186,19 +187,19 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
         } else {
           _logger.e('Cannot launch app settings URL.');
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Unable to open app settings.')),
+           SnackBar(content: Text(AppLocalizations.of(context)!.medsTrackerUnableToOpenApp)),
           );
         }
       } else {
         _logger.e('Package name is empty. Cannot open app settings.');
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Unable to open app settings. Package name not found.')),
+         SnackBar(content: Text(AppLocalizations.of(context)!.medsTrackerPackageNotFound)),
         );
       }
     } catch (e) {
       _logger.e('Error opening app settings: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to open app settings. Please try again.')),
+       SnackBar(content: Text(AppLocalizations.of(context)!.medsTrackerFailedToOpenApp)),
       );
     }
   }
@@ -222,10 +223,10 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
         padding: const EdgeInsets.all(24.0),
         child: ListView(
           children: [
-            const Text('Active Medications', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.medsTrackerActiveMedications, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ...activeMedications.map((med) => ListTile(
               title: Text(med.medicationName),
-              subtitle: Text('Dosage: ${med.dosage} ${med.unit}, Times per Day: ${med.timesPerDay}'),
+              subtitle: Text(AppLocalizations.of(context)!.medsTrackerDosage + '${med.dosage} ${med.unit}, '+ AppLocalizations.of(context)!.medsTrackerTimesPerDay + '${med.timesPerDay}'),
             )),
             const SizedBox(height: 20),
             if (!_isFormVisible)
@@ -235,7 +236,7 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
                     _isFormVisible = true;
                   });
                 },
-                child: const Text('Add Medication Reminder'),
+                child: Text(AppLocalizations.of(context)!.medsTrackerAddReminderTime),
               ),
             if (_isFormVisible) ...[
               const SizedBox(height: 20),
@@ -245,15 +246,15 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
                   children: [
                     TextFormField(
                       controller: _medicationNameController,
-                      decoration: const InputDecoration(labelText: 'Medication Name'),
+                      decoration: InputDecoration(labelText: AppLocalizations.of(context)!.medsTrackerFormMedName),
                     ),
                     TextFormField(
                       controller: _dosageController,
-                      decoration: const InputDecoration(labelText: 'Dosage'),
+                      decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.medsTrackerFormDosage),
                     ),
                     DropdownButtonFormField<String>(
                       value: _selectedUnit,
-                      decoration: const InputDecoration(labelText: 'Unit'),
+                      decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.medsTrackerUnit),
                       items: ['mg', 'ml', 'tablet', 'teaspoons'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -268,17 +269,17 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
                     ),
                     TextFormField(
                       controller: _startDateController,
-                      decoration: const InputDecoration(labelText: 'Start Date (YYYY-MM-DD)'),
+                      decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.medsTrackerStartDate + '(YYYY-MM-DD)'),
                       onTap: () => _selectDate(context, _startDateController),
                     ),
                     TextFormField(
                       controller: _endDateController,
-                      decoration: const InputDecoration(labelText: 'End Date (YYYY-MM-DD)'),
+                      decoration: InputDecoration(labelText: AppLocalizations.of(context)!.medsTrackerEndDate + '(YYYY-MM-DD)'),
                       onTap: () => _selectDate(context, _endDateController),
                     ),
                     DropdownButtonFormField<int>(
                       value: _selectedTimesPerDay,
-                      decoration: const InputDecoration(labelText: 'Times per Day'),
+                      decoration: InputDecoration(labelText: AppLocalizations.of(context)!.medsTrackerTimesPerDay),
                       items: [1, 2, 3, 4, 5].map((int value) {
                         return DropdownMenuItem<int>(
                           value: value,
@@ -298,7 +299,7 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Reminder Times:', style: TextStyle(fontWeight: FontWeight.bold)),
+                         Text(AppLocalizations.of(context)!.medsTrackerReminderTimes, style: TextStyle(fontWeight: FontWeight.bold)),
                           Wrap(
                             spacing: 8,
                             children: _reminderTimes.map((t) => Chip(label: Text(t.format(context)))).toList(),
@@ -307,7 +308,7 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
                             children: [
                               TextButton(
                                 onPressed: () => _selectReminderTime(context),
-                                child: const Text('Add Reminder Time'),
+                                child: Text(AppLocalizations.of(context)!.medsTrackerAddReminderTime),
                               ),
                             ],
                           ),
@@ -325,7 +326,7 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
                               _reminderTimes.clear();
                             });
                           },
-                          child: const Text('Cancel'),
+                          child: Text(AppLocalizations.of(context)!.buttonCancel),
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -334,7 +335,7 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
                               _saveAdherence();
                             }
                           },
-                          child: const Text('Confirm'),
+                          child:  Text(AppLocalizations.of(context)!.buttonConfirm),
                         ),
                       ],
                     ),
@@ -343,10 +344,10 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
               ),
             ],
             const SizedBox(height: 20),
-            const Text('Past Medications', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+           Text(AppLocalizations.of(context)!.medsTrackerPastMedications, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ...pastMedications.map((med) => ListTile(
               title: Text(med.medicationName),
-              subtitle: Text('Dosage: ${med.dosage} ${med.unit}, Times per Day: ${med.timesPerDay}'),
+              subtitle: Text(AppLocalizations.of(context)!.medsTrackerDosage + '${med.dosage} ${med.unit}, '+ AppLocalizations.of(context)!.medsTrackerTimesPerDay + '${med.timesPerDay}'),
             )),
           ],
         ),
