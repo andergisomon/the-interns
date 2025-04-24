@@ -3,6 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lebui_modsu/main.dart';
+import 'package:lebui_modsu/screens/home_screen.dart';
+import 'package:lebui_modsu/services/clinic_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lebui_modsu/globals.dart';
+
 
 class StartupPage extends StatefulWidget {
   const StartupPage({super.key});
@@ -14,12 +19,15 @@ class StartupPage extends StatefulWidget {
 class _StartupPageState extends State<StartupPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController icController = TextEditingController(); // Moved here
+  String? selectedClinic; // Moved here
   bool _rememberMe = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Locale _selectedLocale = const Locale('en', ''); // Default locale
 
-  Future<void> _signInWithEmailAndPassword() async {
+
+    Future<void> _signInWithEmailAndPassword() async {
     try {
       final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: _emailController.text,
@@ -27,6 +35,7 @@ class _StartupPageState extends State<StartupPage> {
       );
       final User? user = userCredential.user;
       if (user != null) {
+        await _verifyDoctorFromFirestore(user.uid); // ✅ Auto check
         Navigator.pushReplacementNamed(context, '/home');
       }
     } catch (e) {
@@ -36,6 +45,7 @@ class _StartupPageState extends State<StartupPage> {
       );
     }
   }
+
 
   Future<User?> _signInWithGoogle() async {
     try {
@@ -131,53 +141,72 @@ class _StartupPageState extends State<StartupPage> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
-                User? user = await _signInWithGoogle();
-                if (user != null) {
-                  Navigator.pushReplacementNamed(context, '/firstForm');
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(AppLocalizations.of(context)!.loginGoogleSignInError),
-                    ),
-                  );
-                }
-              },
+              User? user = await _signInWithGoogle();
+              if (user != null) {
+                await _verifyDoctorFromFirestore(user.uid); // ✅ Auto check
+                Navigator.pushReplacementNamed(context, '/firstForm');
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!.loginGoogleSignInError),
+                  ),
+                );
+              }
+            },
+
               child: Image.asset(
                 'assets/signin-assets/Android/png@1x/light/android_light_rd_na@1x.png',
                 height: 50.0,
               ), // Ensure you have the Google sign-in button asset
             ),
             const SizedBox(height: 20),
-            // Language Dropdown
-            DropdownButton<Locale>(
-              value: _selectedLocale,
-              icon: const Icon(Icons.language),
-              onChanged: (Locale? newLocale) {
-                if (newLocale != null) {
-                  setState(() {
-                    _selectedLocale = newLocale;
-                  });
-                  
-                  // Update the app's locale
-                  MyApp.setLocale(context, newLocale);
-                }
-              },
-              items: const [
-                DropdownMenuItem(
-                  value: Locale('en', ''),
-                  child: Text('English'),
+            const SizedBox(height: 20),
+            // Row for Language Dropdown and Verify Role Button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the buttons
+              children: [
+                // Language Dropdown
+                DropdownButton<Locale>(
+                  value: _selectedLocale,
+                  icon: const Icon(Icons.language),
+                  onChanged: (Locale? newLocale) {
+                    if (newLocale != null) {
+                      setState(() {
+                        _selectedLocale = newLocale;
+                      });
+                      
+                      // Update the app's locale
+                      MyApp.setLocale(context, newLocale);
+                    }
+                  },
+                  items: const [
+                    DropdownMenuItem(
+                      value: Locale('en', ''),
+                      child: Text('English'),
+                    ),
+                    DropdownMenuItem(
+                      value: Locale('zh', ''),
+                      child: Text('中文'),
+                    ),
+                    DropdownMenuItem(
+                      value: Locale('my', ''),
+                      child: Text('Malay'),
+                    ),
+                    DropdownMenuItem(
+                      value: Locale('th', ''),
+                      child: Text('ภาษาไทย'),
+                    ),
+                  ],
                 ),
-                DropdownMenuItem(
-                  value: Locale('zh', ''),
-                  child: Text('中文'),
-                ),
-                DropdownMenuItem(
-                  value: Locale('my', ''),
-                  child: Text('Malay'),
-                ),
-                DropdownMenuItem(
-                  value: Locale('th', ''),
-                  child: Text('ภาษาไทย'),
+                const SizedBox(width: 20), // Add spacing between the buttons
+
+                // Verify Role Button
+                ElevatedButton(
+                  onPressed: () async {
+                    // Show a dialog to prompt the user for IC and clinic selection
+                    await _showVerifyRoleDialog();
+                  },
+                  child: const Text('Verify Role'),
                 ),
               ],
             ),
@@ -186,4 +215,140 @@ class _StartupPageState extends State<StartupPage> {
       ),
     );
   }
+
+  /// Shows a dialog to prompt the user for IC and clinic selection
+  Future<void> _showVerifyRoleDialog() async {
+    List<DropdownMenuItem<String>> clinicItems = [];
+
+    // Fetch clinic names from Firestore
+    try {
+      print('Fetching clinics from Firestore...');
+      final clinics = await FirebaseFirestore.instance.collection('clinics').get();
+      clinicItems = clinics.docs.map((doc) {
+        print('Fetched clinic: ${doc['name']} (ID: ${doc.id})'); // Log each clinic
+        return DropdownMenuItem(
+          value: doc.id, // Use the document ID as the value
+          child: Text(doc['name']), // Use the 'name' field for display
+        );
+      }).toList();
+      print('Clinics fetched successfully.');
+    } catch (e) {
+      print('Error fetching clinics: $e'); // Log the error
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to load clinics')),
+      );
+      return;
+    }
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Verify Role'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Dropdown for selecting a clinic
+              DropdownButton<String>(
+                value: selectedClinic,
+                hint: const Text('Select Clinic'),
+                items: clinicItems,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedClinic = value;
+                    print('Selected clinic updated to: $selectedClinic'); // Log selected clinic
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+
+              // TextField for entering IC
+              TextField(
+                controller: icController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter IC Number',
+                ),
+                onChanged: (value) {
+                  print('IC entered: $value'); // Log IC input
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                print('Dialog canceled.'); // Log cancel action
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                print('Verify button clicked.'); // Log verify button click
+                if (selectedClinic == null || icController.text.isEmpty) {
+                  print('Validation failed: Missing clinic or IC.'); // Log validation failure
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill in all fields')),
+                  );
+                  return;
+                }
+
+                await _verifyDoctorRole();
+                Navigator.pop(context);
+              },
+              child: const Text('Verify'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
+  bool _isDoctorTrue(bool isDoctor) {
+    isDoctorGlobal = isDoctor;
+    return isDoctor;
+  }
+
+
+
+
+  Future<void> _verifyDoctorRole() async {
+    final clinicService = ClinicService();
+    final isValid = await clinicService.verifyDoctorIC(selectedClinic!, int.parse(icController.text));
+
+    if (isValid) {
+      _isDoctorTrue(true); // Pass true for doctors
+      print('IC verification successful.'); // Log successful verification
+      final userId = FirebaseAuth.instance.currentUser?.uid ?? 'unknown';
+      await clinicService.saveUserRole(userId, 'doctor', selectedClinic!);
+    } else {
+      print('IC verification failed.'); // Log failed verification
+      _isDoctorTrue(false); // Pass false for non-doctors
+    }
+  }
+
+  Future<void> _verifyDoctorFromFirestore(String userId) async {
+  try {
+    final docSnapshot = await FirebaseFirestore.instance
+        .collectionGroup('doctors')
+        .where('doctorId', isEqualTo: userId)
+        .get();
+
+    if (docSnapshot.docs.isNotEmpty) {
+      isDoctorGlobal = true;
+      assignedClinicId = docSnapshot.docs.first.reference.parent.parent?.id;
+      print('✅ Doctor verified from Firestore: clinicId = $assignedClinicId');
+    } else {
+      isDoctorGlobal = false;
+      assignedClinicId = null;
+      print('❌ User is not a doctor');
+    }
+  } catch (e) {
+    print('Error checking doctor role from Firestore: $e');
+  }
+  }
+
+
 }
