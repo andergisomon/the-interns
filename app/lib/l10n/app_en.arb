@@ -73,7 +73,7 @@
 
     "@_SUPPLIES_SHOP": {},
     "suppliesShopTitle": "🏪 shop",
-	"suppliesShopCheckout": "🏪 shop",
+	"suppliesShopCheckout": "Checkout",
 	"suppliesShopYourCart": "Your Cart",
 	"suppliesShopEmptyCart": "Your cart is empty.",
     "suppliesShopAddToCart": "Add to Cart",
