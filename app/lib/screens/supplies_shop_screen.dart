@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartItem {
   final String name;
@@ -43,18 +44,18 @@ class SuppliesShopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> products = [ // Bad code: app will crash if it can't find the image, easy fix but I my patience is running out
-      {'name': 'Rusap Noingkat', 'price': 'RM15.00', 'description': "Tradtitional Sabahan lintotobou (*ficus septica*) drink to reduce bloating. Kadazandusun folk remedy.", 'img': 'assets/images/supplies_shop/rusap_noingkat.jpeg'},
-      {'name': 'RAGANG Baby Bath', 'price': 'RM10.00', 'description': 'Tradtitional Sabahan herbal bath infusion for bathing babies. Used to reduce symptoms of jaundice. Kadazandusun folk remedy. Contains Tawawo, Golinggang, and Tulod Ulod leaf extract.', 'img': 'assets/images/supplies_shop/ragang.jpeg'},
-      {'name': 'Rusap Rombisan', 'price': 'RM7.50', 'description': 'Traditional Sabahan herbal Rombisan tea. Contains rombisan (*bawang dayak*).', 'img': 'assets/images/supplies_shop/rusap_rombisan.jpeg'},
-      {'name': 'Rusap Poponsu', 'price': 'RM25.00', 'description': 'Tradtitional Sabahan herbal bath infusion for pregnant women. Used to reduce bloating. Kadazandusun folk remedy. Contains Tawawo, Kaffir lime, Senduduk leaf extract, ginger, red lemongrass, and Eucalyptus.', 'img': 'assets/images/supplies_shop/rusap_poponsu.jpg'},
-      {'name': 'Paracetamol', 'price': 'RM20.00', 'description': 'Generic paracetamol. Commonly used as a painkiller and to reduce symptoms of fever.', 'img': 'assets/images/supplies_shop/pills.png'},
-      {'name': 'Piriton', 'price': 'RM20.00', 'description': 'Also known as Chlorpheniramine maleate. Drowsy antihistamine to reduce symptoms of allergy', 'img': 'assets/images/supplies_shop/pills.png'},
-      {'name': 'Loratadine', 'price': 'RM20.00', 'description': 'Non-drowsy antihistamine to reduce symptoms of allergy.', 'img': 'assets/images/supplies_shop/pills.png'},
+      {'name': 'Rusap Noingkat', 'price': 'RM15.00', 'description': AppLocalizations.of(context)!.suppliesShopItemDescription1 , 'img': 'assets/images/supplies_shop/rusap_noingkat.jpeg'},
+      {'name': 'RAGANG Baby Bath', 'price': 'RM10.00', 'description': AppLocalizations.of(context)!.suppliesShopItemDescription2, 'img': 'assets/images/supplies_shop/ragang.jpeg'},
+      {'name': 'Rusap Rombisan', 'price': 'RM7.50', 'description': AppLocalizations.of(context)!.suppliesShopItemDescription3, 'img': 'assets/images/supplies_shop/rusap_rombisan.jpeg'},
+      {'name': 'Rusap Poponsu', 'price': 'RM25.00', 'description': AppLocalizations.of(context)!.suppliesShopItemDescription4, 'img': 'assets/images/supplies_shop/rusap_poponsu.jpg'},
+      {'name': 'Paracetamol', 'price': 'RM20.00', 'description': AppLocalizations.of(context)!.suppliesShopItemDescription5, 'img': 'assets/images/supplies_shop/pills.png'},
+      {'name': 'Piriton', 'price': 'RM20.00', 'description': AppLocalizations.of(context)!.suppliesShopItemDescription6, 'img': 'assets/images/supplies_shop/pills.png'},
+      {'name': 'Loratadine', 'price': 'RM20.00', 'description': AppLocalizations.of(context)!.suppliesShopItemDescription7 , 'img': 'assets/images/supplies_shop/pills.png'},
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('🏪 Shop'),
+        title: Text(AppLocalizations.of(context)!.suppliesShopTitle),
         actions: [
           TextButton.icon(
             onPressed: () {
@@ -65,7 +66,7 @@ class SuppliesShopScreen extends StatelessWidget {
               );
             },
             icon: const Icon(Icons.shopping_cart, color: Color.fromARGB(255, 0, 0, 0)),
-            label: const Text('Checkout', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
+            label: Text(AppLocalizations.of(context)!.suppliesShopCheckout, style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
           ),
         ],
       ),
@@ -228,7 +229,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       );
                   Navigator.of(context).pop();
                 },
-                child: Text('Add to Cart'),
+                child: Text(AppLocalizations.of(context)!.suppliesShopAddToCart),
               ),
             ),
           ],
@@ -250,12 +251,12 @@ class _CheckoutCartScreenState extends State<CheckoutCartScreen> {
     int? current_radio = 1;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Your Cart')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.suppliesShopYourCart)),
       body: Column(
         children: [
           Expanded(
             child: items.isEmpty
-              ? Center(child: Text('Your cart is empty.'))
+              ? Center(child: Text(AppLocalizations.of(context)!.suppliesShopEmptyCart))
               : ListView.separated(
                   padding: EdgeInsets.all(12),
                   itemCount: items.length + 1, // extra for total row
@@ -293,7 +294,7 @@ class _CheckoutCartScreenState extends State<CheckoutCartScreen> {
                           children: [
                             Spacer(flex: 4),
                             Text(
-                              'Total:',
+                              AppLocalizations.of(context)!.suppliesShopTotal,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -386,9 +387,9 @@ class _CheckoutCartScreenState extends State<CheckoutCartScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Thank you!'),
+                            title: Text(AppLocalizations.of(context)!.suppliesShopThankYou),
                             content:
-                                Text('Your order totaling RM${Cart.total.toStringAsFixed(2)} has been placed.'),
+                                Text(AppLocalizations.of(context)!.suppliesShopOrderPlaced + 'RM ${Cart.total.toStringAsFixed(2)}.'),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -397,13 +398,13 @@ class _CheckoutCartScreenState extends State<CheckoutCartScreen> {
                                     ..pop()
                                     ..pop(); // go back out of cart
                                 },
-                                child: Text('OK'),
+                                child: Text(AppLocalizations.of(context)!.buttonOk),
                               ),
                             ],
                           ),
                         );
                       },
-                child: Text('Checkout now'),
+                child: Text(AppLocalizations.of(context)!.suppliesShopAddToCart),
               ),
             ),
           ),

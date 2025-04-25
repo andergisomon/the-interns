@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth.dart';
 import '../services/first_time_form_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -36,7 +37,7 @@ class LoginPage extends StatelessWidget {
                 _checkFirstTimeLogin(context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Failed to sign in with Google')),
+                 SnackBar(content: Text(AppLocalizations.of(context)!.loginGoogleSignInError)),
                 );
               }
             } catch (e) {
@@ -45,7 +46,7 @@ class LoginPage extends StatelessWidget {
               );
             }
           },
-          child: const Text('Sign in with Google'),
+          child: Text(AppLocalizations.of(context)!.loginSignInWithGoogle),
         ),
       ),
     );

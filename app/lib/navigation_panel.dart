@@ -37,7 +37,7 @@ class NavigationPanelState extends State<NavigationPanel> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat),
-          label: 'Chatbot', // Add Chatbot button
+          label: 'Chatbot', 
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -16,7 +17,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     try {
       await _auth.sendPasswordResetEmail(email: _emailController.text);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset email sent')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.forgotPasswordEmailSent)),
       );
     } catch (e) {
       print('Error during password reset: $e');
@@ -30,7 +31,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Forgot Password Page'),
+        title: Text(AppLocalizations.of(context)!.forgotPasswordPage),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,12 +39,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           children: [
             TextFormField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration:  InputDecoration(labelText: AppLocalizations.of(context)!.forgotPasswordEmail),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _resetPassword,
-              child: const Text('Reset Password'),
+              child: Text(AppLocalizations.of(context)!.forgotPasswordResetPassword),
             ),
           ],
         ),

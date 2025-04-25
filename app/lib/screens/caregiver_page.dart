@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'wellness_report_screen.dart';
 import 'supplies_shop_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CaregiverScreen extends StatefulWidget {
   const CaregiverScreen({super.key});
@@ -31,24 +32,24 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
               image: AssetImage('assets/images/caregiver_hero.png'),
             ),
           ),
-          const SizedBox(
+           SizedBox(
             height: 100,
             width: 130,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
               child: Text(
-                "Being a caregiver can be tough, you might have to juggle a lot of things at once and have trouble tracking everything.",
+                AppLocalizations.of(context)!.caregiverDescription,
                 style: TextStyle(fontFamily: 'Work Sans'),
                 textAlign: TextAlign.left,
               ),
             ),
           ),
-          const Padding(
+           Padding(
             padding: EdgeInsetsDirectional.only(top: 8.0, start: 4.0, bottom: 10.0),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
               child: Text(
-                'Tools to help',
+                AppLocalizations.of(context)!.caregiverToolsToHelp,
                 style: TextStyle(fontSize: 22, fontFamily: 'Work Sans Semibold'),
               ),
             ),
@@ -73,8 +74,8 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
                 children: ImageInfo.values.map((ImageInfo image) {
                   return UncontainedLayoutCard(
                     index: image.index,
-                    label: image.title,
-                    description: image.subtitle,
+                    label: ImageInfo.getTitle(context, image),
+                    description: ImageInfo.getSubtitle(context, image),
                     imageInfo: image,
                     onTap: image == ImageInfo.image1 // Check if it's the second card // Check if it's the last card
                         ? () {
@@ -88,12 +89,12 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          const Padding(
+           Padding(
             padding: EdgeInsetsDirectional.only(top: 8.0, start: 4.0, bottom: 0.0),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
               child: Text(
-                'Shop for supplies',
+                AppLocalizations.of(context)!.caregiverShopSupplies,
                 style: TextStyle(fontSize: 22, fontFamily: 'Work Sans Semibold'),
               ),
             ),
@@ -107,13 +108,13 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-          const SizedBox(
+           SizedBox(
             height: 90,
             width: 130,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
             child: Text(
-                "Easily browse and purchase essential supplies to make caregiving more manageable.",
+                AppLocalizations.of(context)!.caregiverShopDescription,
                 style: TextStyle(fontFamily: 'Work Sans'),
                 textAlign: TextAlign.left,
               ),
@@ -140,7 +141,7 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
                 ),
               );
               },
-              child: const Text('Shop now'),
+              child: Text(AppLocalizations.of(context)!.caregiverShopNow),
             ),
             ),
           ),
@@ -218,15 +219,37 @@ return InkWell(
 }
 
 enum ImageInfo {
-  image0('Daily routines', 'Set up specific routines and checklists to be done regularly. Never forget anything again.', 'daily_routine.png'),
-  image1('Wellness report', 'Privately analyze your data and generate a brief report of how things are going', 'wellness.png'),
- // image1('Consumables', 'Define supplies that may run out, track how much you have left and set reminders to restock.', 'consumables.png'),
-  image2('Reach out', 'Feel seen. Guide others. Find a community of people to relate to and make your days feel a little bit lighter.', 'reach_out.png'),
-  image3('Need to vent?', "Sometimes, all we need is to feel that we're being heard. A shoulder that doesn't judge can help us weather bad times.", 'vent.png');
- // image4('Wellness report', 'Privately analyze your data and generate a brief report of how things are going', 'wellness.png');
+  image0('daily_routine.png'),
+  image1('wellness.png'),
+  image2('reach_out.png'),
+  image3('vent.png');
 
-  const ImageInfo(this.title, this.subtitle, this.url);
-  final String title;
-  final String subtitle;
+  const ImageInfo(this.url);
   final String url;
+
+  static String getTitle(BuildContext context, ImageInfo image) {
+    switch (image) {
+      case ImageInfo.image0:
+        return AppLocalizations.of(context)!.caregiverDailyRoutinesTitle;
+      case ImageInfo.image1:
+        return AppLocalizations.of(context)!.caregiverWellnessReportTitle;
+      case ImageInfo.image2:
+        return AppLocalizations.of(context)!.caregiverReachOutTitle;
+      case ImageInfo.image3:
+        return AppLocalizations.of(context)!.caregiverVentOutTitle;
+    }
+  }
+
+  static String getSubtitle(BuildContext context, ImageInfo image) {
+    switch (image) {
+      case ImageInfo.image0:
+        return AppLocalizations.of(context)!.caregiverDailyRoutinesSubtitle;
+      case ImageInfo.image1:
+        return AppLocalizations.of(context)!.caregiverWellnessReportSubtitle;
+      case ImageInfo.image2:
+        return AppLocalizations.of(context)!.caregiverReachOutSubtitle;
+      case ImageInfo.image3:
+        return AppLocalizations.of(context)!.caregiverVentOutSubtitle;
+    }
+  }
 }
