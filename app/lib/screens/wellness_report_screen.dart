@@ -27,7 +27,7 @@ Future<String> generateReportBulletpoint(final String apiKey, String context) as
 
   switch (context) {
     case ReportBulletpoint.meds_info:
-      final length = await medical_adherence_service.howLong(assignedClinicId!, user.uid);
+      final length = await medical_adherence_service.howLong(user.uid);
 
       int i = 0;
       while (i < length) {

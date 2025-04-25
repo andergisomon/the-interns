@@ -104,7 +104,7 @@ class _CaregiverScreenState extends State<CaregiverScreen> {
               height: 200,
               width: 300,
               child: Image(
-                image: AssetImage('assets/images/shop_splash.jpg'),
+                image: AssetImage('assets/images/shop_splash.png'),
                 fit: BoxFit.cover,
               ),
             ),
