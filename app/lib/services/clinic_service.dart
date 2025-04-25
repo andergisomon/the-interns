@@ -115,4 +115,27 @@ class ClinicService {
       return null;
     }
   }
+
+  Future<String?> getAssignedClinicIdForPatient(String userId) async {
+  try {
+    final query = await FirebaseFirestore.instance
+        .collectionGroup('patients')
+        .where('patientId', isEqualTo: userId)
+        .limit(1)
+        .get();
+
+    if (query.docs.isNotEmpty) {
+      final path = query.docs.first.reference.path;
+      // path = clinics/<clinicId>/patients/<userId>
+      final clinicId = path.split('/')[1];
+      return clinicId;
+    }
+
+    return null;
+  } catch (e) {
+    print('Error getting patient clinic ID: $e');
+    return null;
+  }
+  }
+
 }

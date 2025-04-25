@@ -44,7 +44,7 @@ class FirstTimeLoginPageState extends State<FirstTimeLoginPage> {
         weight: weight,
         bmi: bmi,
       );
-      await _service.saveFirstTimeLogin(firstTimeLogin);
+      await _service.saveFirstTimeLogin(firstTimeLogin,user.uid);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context)!.firstTimeLoginDataSaved)),
