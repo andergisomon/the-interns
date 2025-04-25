@@ -142,6 +142,13 @@ class _StartupPageState extends State<StartupPage> {
             ElevatedButton(
               onPressed: () async {
               User? user = await _signInWithGoogle();
+
+                    if( isDoctorGlobal = false)
+                    {
+
+                      assignedClinicId = await ClinicService().getAssignedClinicIdForPatient(user!.uid);
+                    }
+
               if (user != null) {
                 await _verifyDoctorFromFirestore(user.uid); // ✅ Auto check
                 Navigator.pushReplacementNamed(context, '/firstForm');
@@ -351,7 +358,6 @@ class _StartupPageState extends State<StartupPage> {
       print('✅ Doctor verified from Firestore: clinicId = $assignedClinicId');
     } else {
       isDoctorGlobal = false;
-      assignedClinicId = null;
       print('❌ User is not a doctor');
     }
   } catch (e) {

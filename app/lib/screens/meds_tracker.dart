@@ -40,11 +40,13 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
   List<TimeOfDay> _reminderTimes = [];
   bool _isFormVisible = false;
   bool _isSaving = false; // State variable to track saving status
+  
 
   @override
   void initState() {
     super.initState();
     _initializeNotifications();
+     _rescheduleReminders(); // 🔁 Automatically re-schedule active medication reminders
     _loadAdherence();
     _logger.i('Initialized MedsTrackerPage'); // Debug log
   }
@@ -57,6 +59,39 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
       _logger.e('Error initializing notifications: $e');
     }
   }
+
+  Future<void> _rescheduleReminders() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) return;
+
+  try {
+    final adherenceList = await _service.getMedicalAdherence(widget.clinicId, user.uid);
+    final now = DateTime.now();
+
+    int notificationId = 1000; // Arbitrary offset to avoid clashing with new IDs
+    for (final adherence in adherenceList) {
+      if (adherence.endDate.isAfter(now)) {
+        for (final reminder in adherence.reminderTimes) {
+          final hour = reminder['hour'];
+          final minute = reminder['minute'];
+
+          await _notificationsService.scheduleNotification(
+            id: notificationId++,
+            title: 'Medication Reminder',
+            body: 'It\'s time to take your medication: ${adherence.medicationName} (${adherence.dosage} ${adherence.unit})',
+            hour: hour ?? 0, // Provide a default value of 0 if null
+            minute: minute ?? 0, // Provide a default value of 0 if null
+          );
+        }
+      }
+    }
+
+    _logger.i('Rescheduled notifications for active medications');
+  } catch (e) {
+    _logger.e('Error rescheduling reminders: $e');
+  }
+}
+
 
   Future<void> _selectReminderTime(BuildContext context) async {
     if (_reminderTimes.length >= _selectedTimesPerDay) {
@@ -101,8 +136,6 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
       );
 
       try {
-        final clinicService = ClinicService();
-        assignedClinicId = await clinicService.getAssignedClinicId(user.uid);
         if (assignedClinicId == null) {
         print('❌ assignedClinicId is null. Cannot save medication.');
         return;

@@ -43,7 +43,7 @@ class ClinicDatabase {
       .get();
 
   return snapshot.docs
-      .map((doc) => Patient.fromMap(doc.data(), doc.id))
+      .map((patient) => Patient.fromMap(patient.data(), patient.id))
       .toList();
   }
 

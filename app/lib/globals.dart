@@ -1,5 +1,5 @@
 library lebui_modsu.globals;
 
 bool isDoctorGlobal = false;
-String? assignedClinicId;
+String? assignedClinicId = '0' ;
 
