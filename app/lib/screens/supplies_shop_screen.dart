@@ -238,10 +238,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 }
 
-class CheckoutCartScreen extends StatelessWidget {
+class CheckoutCartScreen extends StatefulWidget {
+  @override
+  _CheckoutCartScreenState createState() => _CheckoutCartScreenState();
+}
+
+class _CheckoutCartScreenState extends State<CheckoutCartScreen> {
   @override
   Widget build(BuildContext context) {
     final items = Cart.items;
+    int? current_radio = 1;
 
     return Scaffold(
       appBar: AppBar(title: Text('Your Cart')),
@@ -251,7 +257,7 @@ class CheckoutCartScreen extends StatelessWidget {
             child: items.isEmpty
               ? Center(child: Text('Your cart is empty.'))
               : ListView.separated(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(12),
                   itemCount: items.length + 1, // extra for total row
                   separatorBuilder: (_, __) => Divider(),
                   itemBuilder: (context, index) {
@@ -282,7 +288,7 @@ class CheckoutCartScreen extends StatelessWidget {
                     } else {
                       // total row
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
                         child: Row(
                           children: [
                             Spacer(flex: 4),
@@ -307,6 +313,65 @@ class CheckoutCartScreen extends StatelessWidget {
                     }
                   },
                 ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Delivery option',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(height: 8),
+                Column(
+                  children: [
+                    RadioListTile<int>(
+                      value: 1,
+                      groupValue: current_radio, // Replace with a variable if you want to manage state
+                      onChanged: (value) {
+                        setState(() {
+                            current_radio = value!;
+                          });
+                        },
+                      title: Text('LaLaMove delivery'),
+                      subtitle: Text(
+                        'Get it as quick as within 1-2 days',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                    RadioListTile<int>(
+                      value: 2,
+                      groupValue: current_radio, // Replace with a variable if you want to manage state
+                      onChanged: (value) {
+                        setState(() {
+                            current_radio = value!;
+                          });
+                        },
+                      title: Text('KEX delivery'),
+                      subtitle: Text(
+                        'Express delivery (1-2 business days)',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                    RadioListTile<int>(
+                      value: 3,
+                      groupValue: current_radio, // Replace with a variable if you want to manage state
+                      onChanged: (value) {
+                        setState(() {
+                            current_radio = value!;
+                          });
+                        },
+                      title: Text('BnL Delivery'),
+                      subtitle: Text(
+                        'Same-day delivery (if ordered before 12 PM)',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(12.0),
