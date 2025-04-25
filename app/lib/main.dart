@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lebui_modsu/globals.dart';
 import 'package:lebui_modsu/services/notifications.dart';
 import 'package:logging/logging.dart';
 import 'screens/startup_page.dart';
@@ -113,7 +114,8 @@ class _MyAppState extends State<MyApp> {
         '/firstForm': (context) => const FirstTimeLoginPage(),
         '/home': (context) => const home.HomePage(),
         '/chatbot': (context) => const ChatbotScreen(),
-        '/meds_tracker': (context) => const MedsTrackerPage(),
+        '/meds_tracker': (context) => MedsTrackerPage(clinicId: assignedClinicId ?? 'unknown'),
+
         '/caregiver': (context) => const CaregiverScreen(),
         '/profile': (context) => ProfilePage(),
       },

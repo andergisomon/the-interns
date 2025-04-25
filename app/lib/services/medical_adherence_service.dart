@@ -4,7 +4,8 @@ import '../dataframe/medical_adherence_df.dart';
 class MedicalAdherenceService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> saveMedicalAdherence(MedicalAdherence adherence) async {
+  /// Save a medication record under the correct clinic and patient
+  Future<void> saveMedicalAdherence(String clinicId, MedicalAdherence adherence) async {
     final adherenceMap = adherence.toMap();
 
     // Ensure reminderTimes is stored as List<Map<String, int>>
@@ -16,18 +17,22 @@ class MedicalAdherenceService {
         .toList();
 
     await _firestore
-        .collection('medicalTracker - users')
+        .collection('clinics')
+        .doc(clinicId)
+        .collection('patients')
         .doc(adherence.userId)
         .collection('medications')
         .add(adherenceMap);
   }
 
-  Future<List<MedicalAdherence>> getMedicalAdherence(String userId) async {
+  /// Fetch all medication adherence entries for a specific user
+  Future<List<MedicalAdherence>> getMedicalAdherence(String clinicId, String userId) async {
     final List<MedicalAdherence> adherenceList = [];
     try {
-      // Query the medications subcollection for the specific user
       final querySnapshot = await _firestore
-          .collection('medicalTracker - users')
+          .collection('clinics')
+          .doc(clinicId)
+          .collection('patients')
           .doc(userId)
           .collection('medications')
           .get();
@@ -35,7 +40,7 @@ class MedicalAdherenceService {
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
         adherenceList.add(MedicalAdherence(
-          userId: data['userId'],
+          userId: userId,
           medicationName: data['medicationName'],
           dosage: data['dosage'],
           unit: data['unit'],
@@ -56,13 +61,16 @@ class MedicalAdherenceService {
     }
     return adherenceList;
   }
-  Future<MedicalAdherence> getMedicalAdherence_demo(String userId, int index) async {
-    MedicalAdherence first_medication = (await getMedicalAdherence(userId))[index];
-    return first_medication;
+
+  /// Return one medication by index
+  Future<MedicalAdherence> getMedicalAdherence_demo(String clinicId, String userId, int index) async {
+    MedicalAdherence med = (await getMedicalAdherence(clinicId, userId))[index];
+    return med;
   }
 
-  Future<int> howLong(String userId) async {
-    List<MedicalAdherence> list = await getMedicalAdherence(userId);
+  /// Return how many medications a user has
+  Future<int> howLong(String clinicId, String userId) async {
+    List<MedicalAdherence> list = await getMedicalAdherence(clinicId, userId);
     return list.length;
   }
 }

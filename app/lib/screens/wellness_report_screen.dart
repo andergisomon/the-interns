@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:lebui_modsu/globals.dart';
 import 'package:lebui_modsu/services/health_stats_service.dart';
 import '/services/chatbot_api_handler.dart';
 import '/services/medical_adherence_service.dart';
@@ -26,10 +27,12 @@ Future<String> generateReportBulletpoint(final String apiKey, String context) as
 
   switch (context) {
     case ReportBulletpoint.meds_info:
-      final length = await medical_adherence_service.howLong(user.uid);
+      final length = await medical_adherence_service.howLong(assignedClinicId!, user.uid);
+
       int i = 0;
       while (i < length) {
-        final medication = await medical_adherence_service.getMedicalAdherence_demo(user.uid, i);
+        final medication = await medical_adherence_service.getMedicalAdherence_demo(assignedClinicId!, user.uid, i);
+
         String _message = '\nMedication ${i} name is ${medication.medicationName}, the dosage is ${medication.dosage}, with unit: ${medication.unit}, taken x${medication.timesPerDay} times a day.';
         message = message + _message;
         i = i + 1;

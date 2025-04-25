@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lebui_modsu/globals.dart';
+import 'package:lebui_modsu/screens/patient_tracker_page.dart';
 import '../services/auth.dart';
 import 'chatbot_screen.dart';
 import 'meds_tracker.dart'; // Correct import
@@ -17,13 +19,18 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  static final List<Widget> _pages = <Widget>[
-    HomeScreen(userNickname: 'Harold'), // Updated to use HomeScreen
-    MedsTrackerPage(), // Correct method
-    CaregiverScreen(), // Correct method
-    ChatbotScreen(), // Add ChatbotScreen to the pages list
-    ProfilePage(), // Correct method
+  List<Widget> _getPages() {
+  return [
+    HomeScreen(userNickname: 'Harold'),
+    isDoctorGlobal
+      ? PatientTrackerPage(clinicId: assignedClinicId ?? 'unknown')
+      : MedsTrackerPage(clinicId: assignedClinicId ?? 'unknown'),
+    CaregiverScreen(),
+    ChatbotScreen(),
+    ProfilePage(),
   ];
+}
+
 
   List<String> get titles => <String>[
     AppLocalizations.of(context)!.navigationTitle1,
@@ -58,7 +65,8 @@ class HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: _pages[_selectedIndex], // Use the selected index from HomePageState
+      body: _getPages()[_selectedIndex],
+ // Use the selected index from HomePageState
       bottomNavigationBar: NavigationPanel(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,

@@ -322,7 +322,15 @@ class _StartupPageState extends State<StartupPage> {
       _isDoctorTrue(true); // Pass true for doctors
       print('IC verification successful.'); // Log successful verification
       final userId = FirebaseAuth.instance.currentUser?.uid ?? 'unknown';
-      await clinicService.saveUserRole(userId, 'doctor', selectedClinic!);
+      await clinicService.saveUserRole(
+      userId,
+      'doctor',
+      selectedClinic!,
+      name: 'Unknown',  // You can replace this with actual value
+      email: 'Unknown',
+      ic: int.parse(icController.text),
+    );
+
     } else {
       print('IC verification failed.'); // Log failed verification
       _isDoctorTrue(false); // Pass false for non-doctors
@@ -336,9 +344,10 @@ class _StartupPageState extends State<StartupPage> {
         .where('doctorId', isEqualTo: userId)
         .get();
 
+    final clinicService = ClinicService();
     if (docSnapshot.docs.isNotEmpty) {
       isDoctorGlobal = true;
-      assignedClinicId = docSnapshot.docs.first.reference.parent.parent?.id;
+      assignedClinicId = await clinicService.getAssignedClinicId(userId);
       print('✅ Doctor verified from Firestore: clinicId = $assignedClinicId');
     } else {
       isDoctorGlobal = false;

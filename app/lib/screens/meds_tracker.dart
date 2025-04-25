@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:lebui_modsu/globals.dart';
+import 'package:lebui_modsu/services/clinic_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,11 +16,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 final Logger _logger = Logger();
 
 class MedsTrackerPage extends StatefulWidget {
-  const MedsTrackerPage({super.key});
+  final String clinicId;
+
+  const MedsTrackerPage({super.key, required this.clinicId});
 
   @override
   MedsTrackerPageState createState() => MedsTrackerPageState();
 }
+
 
 class MedsTrackerPageState extends State<MedsTrackerPage> {
   final _formKey = GlobalKey<FormState>();
@@ -96,7 +101,17 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
       );
 
       try {
-        await _service.saveMedicalAdherence(adherence);
+        final clinicService = ClinicService();
+        assignedClinicId = await clinicService.getAssignedClinicId(user.uid);
+        if (assignedClinicId == null) {
+        print('❌ assignedClinicId is null. Cannot save medication.');
+        return;
+      }
+
+        // Now it's safe:
+        await _service.saveMedicalAdherence(widget.clinicId, adherence);
+
+
         _logger.i('Saved adherence: $adherence');
 
         // Schedule notifications for the reminder times
@@ -146,7 +161,9 @@ class MedsTrackerPageState extends State<MedsTrackerPage> {
     if (user != null) {
       try {
         _logger.i('Loading adherence data for user: ${user.uid}');
-        final adherenceList = await _service.getMedicalAdherence(user.uid);
+        final adherenceList = await _service.getMedicalAdherence(widget.clinicId, user.uid);
+
+
         setState(() {
           _medications.clear();
           _medications.addAll(adherenceList);

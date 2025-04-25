@@ -36,16 +36,17 @@ class ClinicDatabase {
   }
 
   Future<List<Patient>> getPatients(String clinicId) async {
-    final querySnapshot = await _firestore
-        .collection('clinics')
-        .doc(clinicId)
-        .collection('patients')
-        .get();
+  final snapshot = await FirebaseFirestore.instance
+      .collection('clinics')
+      .doc(clinicId)
+      .collection('patients')
+      .get();
 
-    return querySnapshot.docs
-        .map((doc) => Patient.fromMap(doc.data()))
-        .toList();
+  return snapshot.docs
+      .map((doc) => Patient.fromMap(doc.data(), doc.id))
+      .toList();
   }
+
 
   Future<List<Clinic>> getClinics() async {
     try {

@@ -4,6 +4,8 @@ import 'package:timezone/data/latest.dart' as tz;
 import '../dataframe/medical_adherence_df.dart'; // Import your MedicalAdherence model
 import '../services/medical_adherence_service.dart'; // Import your service to fetch adherence data
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lebui_modsu/globals.dart';
+
 
 class NotificationsService {
   final notificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -118,7 +120,8 @@ class NotificationsService {
       }
 
       final List<MedicalAdherence> adherenceList =
-          await _adherenceService.getMedicalAdherence(user.uid);
+          await _adherenceService.getMedicalAdherence(assignedClinicId!, user.uid);
+
 
       int notificationId = 0; // Unique ID for each notification
 
