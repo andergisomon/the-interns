@@ -63,7 +63,7 @@ class MedicalAdherenceService {
   }
 
   /// Return one medication by index
-  Future<MedicalAdherence> getMedicalAdherence_demo(String clinicId, String userId, int index) async {
+  Future<MedicalAdherence> getMedicalAdherence_demo(String userId, int index) async {
     MedicalAdherence med = (await getMedicalAdherence_noClinicId(userId))[index];
     return med;
   }

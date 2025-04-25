@@ -31,7 +31,7 @@ Future<String> generateReportBulletpoint(final String apiKey, String context) as
 
       int i = 0;
       while (i < length) {
-        final medication = await medical_adherence_service.getMedicalAdherence_demo(assignedClinicId!, user.uid, i);
+        final medication = await medical_adherence_service.getMedicalAdherence_demo(user.uid, i);
 
         String _message = '\nMedication ${i} name is ${medication.medicationName}, the dosage is ${medication.dosage}, with unit: ${medication.unit}, taken x${medication.timesPerDay} times a day.';
         message = message + _message;
