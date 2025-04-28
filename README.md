@@ -1,7 +1,13 @@
 # Suaunaau - The AI-powered healthcare, lifestyle, and wellness superapp
-## Prelim submission by team The Interns for VHack 2025 Hackathon Submission
+## 2nd Runner-up Winning Submission by team The Interns for VHack 2025 Hackathon Submission
 
-Watch our YouTube video here: [https://youtu.be/OAdU3xzIlBc](https://youtu.be/OAdU3xzIlBc)
+<p align="center">
+<img src="https://andergisomon.github.io/blog/posts/vhack_2025/images/cover.jpg" width="500" height="auto">
+</p>
+
+Read my blog post about the experience [here](https://andergisomon.github.io/blog/posts/vhack_2025/).
+
+Watch our preliminary pitch here: [https://youtu.be/OAdU3xzIlBc](https://youtu.be/OAdU3xzIlBc)
 
 Members:
 - Mclaren [@MclarenFrankl1n](https://github.com/MclarenFrankl1n)
